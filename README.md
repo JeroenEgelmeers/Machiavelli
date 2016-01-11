@@ -3,15 +3,15 @@ Avans Hogeschool - C++ eindopdracht
 
 # Opdracht
 Maak	in	C++ een	applicatie	van	het	spel	Machiavelli.	Zie	de	bij	deze	eindopdracht	geplaatste	pdf	voor	
-de	spelregels*.	Je	moet	in	tweetallen** een	console	applicatie	maken	die	door	middel	van	tekst	
+de	spelregels\*.	Je	moet	in	tweetallen\** een	console	applicatie	maken	die	door	middel	van	tekst	
 weergeeft	wat	jouw	gelegde	kaarten zijn	en/of	wat	de	gelegde	kaarten	van	de	tegenspeler	zijn.	Het	is	
 niet	verboden	om	ergens	een	grafische	weergave	van	te	hebben,	maar	je	krijgt	hier	geen	extra	
 punten	voor. De	console	geeft	ook	aan	wat	voor	keuzes	een	speler	heeft	indien	deze	een	keuze	moet	
 maken.
 
-- *Machiavelli	is	normaalgesproken	een	spel	voor	2	tot	7	spelers,	maar	voor	deze	opdracht	beperken	
+- \*Machiavelli	is	normaalgesproken	een	spel	voor	2	tot	7	spelers,	maar	voor	deze	opdracht	beperken	
 we	ons	tot	de	variant	met	2	spelers.
-- **Er	wordt	altijd	per	tweetal	gewerkt	aan	de	eindopdracht.	Trio’s	zijn	niet	meer	toegestaan.	Bij	
+- \**Er	wordt	altijd	per	tweetal	gewerkt	aan	de	eindopdracht.	Trio’s	zijn	niet	meer	toegestaan.	Bij	
 uitzondering	kan	de	docent	toestemming	geven	om	de	opdracht	alleen	uit	te	werken.
 
 # Requirements
