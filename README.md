@@ -5,31 +5,31 @@ Avans Hogeschool - C++ eindopdracht
 Je	schrijft	een	game	server,	die	je	geheel	mag	baseren	op	de	voorbeeldcode.	Je	bent	niet	
 verplicht	om	een	speciale	client	te	bouwen;	je	kunt	daarvoor	gewoon	telnet	gebruiken.	Zie	
 Blackboard voor	extra	informatie	over	telnet.
-• Het	moet volledig in	C++ geprogrammeerd	zijn.
-• Je	mag	alleen van	de	Standard	Library gebruik	maken,	plus	eigen	code.	Het	gebruik	van	externe	
+- Het	moet volledig in	C++ geprogrammeerd	zijn.
+- Je	mag	alleen van	de	Standard	Library gebruik	maken,	plus	eigen	code.	Het	gebruik	van	externe	
 libraries	zoals	Boost	of	Poco	is niet	toegestaan.	Die	heb	je	ook	helemaal	niet	nodig:	alles	kan	in	
 principe	gedaan	worden	met	de	mogelijkheden	die	de	Standard	Library	je	biedt.	(Tip:	maak	goed	
 en	veel	gebruik	van	cppreference.com).
-• Als	je	casts	gebruikt	mag	er alleen gebruik	worden	gemaakt	van	C++	style	casts (static_cast,	
+- Als	je	casts	gebruikt	mag	er alleen gebruik	worden	gemaakt	van	C++	style	casts (static_cast,	
 const_cast, dynamic_cast,	en	reinterpret_cast),	of	de	varianten	hiervoor	die	shared_ptr	je	biedt.
-• Er	mag	alleen gebruik	worden	gemaakt	van	smart	pointers (unique_ptr,	shared_ptr,	en	
+- Er	mag	alleen gebruik	worden	gemaakt	van	smart	pointers (unique_ptr,	shared_ptr,	en	
 weak_ptr).	"Gewone"	pointers	mogen	dus	niet	voorkomen!	(Behalve	natuurlijk	voor	stack-based	
 of	global	objects;	zie	opmerking	bij	laatste	Maluspunt	hieronder.)
-• Er	mogen	geen	memory	leaks	voorkomen	(maar	dat	krijg	je	dus	cadeau bij	correct	gebruik	van	
+- Er	mogen	geen	memory	leaks	voorkomen	(maar	dat	krijg	je	dus	cadeau bij	correct	gebruik	van	
 smart	pointers).
-• Alle	code	moet	exception	safe zijn.	Dat	wil	zeggen	dat	het	niet	mogelijk	moet	zijn	dat	memory	
+- Alle	code	moet	exception	safe zijn.	Dat	wil	zeggen	dat	het	niet	mogelijk	moet	zijn	dat	memory	
 leaks	ontstaan	als	gevolg	van	een	exception. (En	ook	dit	krijg	je	cadeau	wanneer	je	de	smart	
 pointers	goed	toepast.)
-• Er	moet	exception	handling plaatsvinden.	De	applicatie	mag	nooit een	exception	aan	de	
+- Er	moet	exception	handling plaatsvinden.	De	applicatie	mag	nooit een	exception	aan	de	
 gebruiker	doorgeven,	dit	moet	door	middel	van	een	berichtje	in	de	console	weergegeven	
 worden,	waarna,	mocht	dit	nodig	zijn,	netjes	uit	het	programma	gesprongen	wordt. (In	het	
 voorbeeldprogramma	is	de	exception	handling	op	het	hoogste	niveau	al	helemaal	geregeld,	dus	
 als	je	hierop	voortborduurt	zul	je	nooit	zomaar	op	een	exception	crashen.)
-• De	bouwkaarten	en	de	karakterkaarten	moeten	beide door	middel	van	een	file	stream worden	
+- De	bouwkaarten	en	de	karakterkaarten	moeten	beide door	middel	van	een	file	stream worden	
 ingelezen. (Als	je	niet	gebruik	wilt	maken	van	de	gegeven bestanden	mag	je	het	ook	op	een	
 andere	manier	oplossen.	We	willen	echter	wel	graag	zien	dat	je	tekstbestanden	van	enige	
 complexiteit	correct	kunt	verwerken.)
-• Je	programma	mag	niet	crashen.	Gebeurt	dat	toch,	dan	ter	plekke	repareren	of	anders	geen	
+- Je	programma	mag	niet	crashen.	Gebeurt	dat	toch,	dan	ter	plekke	repareren	of	anders	geen	
 punt	en	later	opnieuw	proberen.
 
 # Maluspunten:
