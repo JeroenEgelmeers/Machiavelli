@@ -70,3 +70,10 @@ met	het	volledig	implementeren	van	alle	paarse	kaarten.
 wordt	onderbroken	(of onverhoopt	crasht)	moet	de	toestand	weer	ingeladen	kunnen	worden	en	
 verder	gegaan	waar	men	was	gebleven. Correcte	implementatie hiervan levert	+2 punten. Vergis	
 je	niet,	dit	is	lastiger	dan	je	denkt.	Uitdaging!
+
+# Informatie over de applicatie
+# Runnen van de applicatie.
+Zorg aller eerst dat telnet is geactiveerd op je systeem. Dit dient op een windows computer via de instellingen nog gedaan te worden (beknopt: Windows Control Panel -> Programs and Features -> Turn Windows features on or off -> check Telnet Client.
+Vanaf dat moment kun je in een Command Prompt window telnet als commando gebruiken.).
+
+Vervolgens start je een CMDprompt en type je daar: telnet localhost 1080
