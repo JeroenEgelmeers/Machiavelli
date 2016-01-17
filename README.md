@@ -14,7 +14,7 @@ we	ons	tot	de	variant	met	2	spelers.
 - \**Er	wordt	altijd	per	tweetal	gewerkt	aan	de	eindopdracht.	Trio’s	zijn	niet	meer	toegestaan.	Bij	
 uitzondering	kan	de	docent	toestemming	geven	om	de	opdracht	alleen	uit	te	werken.
 
-# Requirements
+### Requirements
 Je	schrijft	een	game	server,	die	je	geheel	mag	baseren	op	de	voorbeeldcode.	Je	bent	niet	
 verplicht	om	een	speciale	client	te	bouwen;	je	kunt	daarvoor	gewoon	telnet	gebruiken.	Zie	
 Blackboard voor	extra	informatie	over	telnet.
@@ -45,7 +45,7 @@ complexiteit	correct	kunt	verwerken.)
 - Je	programma	mag	niet	crashen.	Gebeurt	dat	toch,	dan	ter	plekke	repareren	of	anders	geen	
 punt	en	later	opnieuw	proberen.
 
-# Maluspunten:
+### Maluspunten:
 - Slecht	C++-gebruik	(C++	niet	gebruiken	zoals	het	bedoeld	is):	– 1 punt.
 - Slechte	architectuur:	– 0,5 punt.	(We	zijn	ons	bewust	dat	het	assessment	vooral	over	C++ moet	
 gaan	en	minder	over	architectuur,	maar	als	onderdeel	van	de	minor	Software	Architectuur	
@@ -60,7 +60,7 @@ weliswaar	een	ruwe	pointer,	maar	niet	eentje	die	met	new	is	gemaakt	en	met	delet
 worden	opgeruimd. Die	zijn	gewoon	toegestaan	(hoewel	je	dan	nog	steeds	goed	moet	opletten	
 wat	de	life	time	en	scope	van	deze	objecten	zijn,	anders	riskeer	je	dangling	pointers…).
 
-# Bonuspunten (gaan we nog niet voor):
+### Bonuspunten (gaan we nog niet voor):
 - De	paarse	kaarten zijn	lastig	te	implementeren,	omdat	ze	qua	spelregels	op	allerlei	plekken	in	je	
 software	architectuur	ingrijpen.	De	moeilijkste	kaart	is	in	dit	verband:	het	Kerkhof,	en	die	levert	
 je	+0,5	punt	op als		je	hem	correct	hebt	ingebouwd.	Als	je	ook	de	rest	van	de	paarse	kaarten	goed	
@@ -72,7 +72,7 @@ verder	gegaan	waar	men	was	gebleven. Correcte	implementatie hiervan levert	+2 pu
 je	niet,	dit	is	lastiger	dan	je	denkt.	Uitdaging!
 
 # Informatie over de applicatie
-# Runnen van de applicatie.
+### Runnen van de applicatie.
 Zorg aller eerst dat telnet is geactiveerd op je systeem. Dit dient op een windows computer via de instellingen nog gedaan te worden (beknopt: Windows Control Panel -> Programs and Features -> Turn Windows features on or off -> check Telnet Client.
 Vanaf dat moment kun je in een Command Prompt window telnet als commando gebruiken.).
 
