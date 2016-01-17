@@ -17,7 +17,7 @@ using namespace std;
 #include "Socket.h"
 #include "Sync_queue.h"
 #include "ClientCommand.h"
-#include "Player.hpp"
+#include "Player.h"
 
 namespace machiavelli {
     const int tcp_port {1080};
