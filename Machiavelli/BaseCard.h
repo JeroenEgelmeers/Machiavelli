@@ -24,12 +24,12 @@ public:
 	string			GetDescription()			{ return mDescription;  }
 	bool			GetVisible()				{ return mVisible; }
 	void			SetVisible(bool visible)	{ mVisible = visible; }
-	CharacterType	GetCharacterType() { return mCharacterType; }
+	CharacterType	GetCharacterType()			{ return mCharacterType; }
 
 	// For setup
-	void			SetName(string name) { mName = name; }
+	void			SetName(string name)		{ mName = name; }
 	void			SetDescription(string desc) { mDescription = desc; }
-	void			SetColor(CardColor color) { mColor = color; }
+	void			SetColor(CardColor color)	{ mColor = color; }
 	void			SetCharacterType(CharacterType type) { mCharacterType = type; }
 
 };
