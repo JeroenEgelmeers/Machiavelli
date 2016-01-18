@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Server">
       <UniqueIdentifier>{05677221-7c11-4e1a-a467-315de393d408}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Cards\Characters">
+      <UniqueIdentifier>{57756ecc-2712-45d3-a341-0f3a59d321cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cards\Characters">
+      <UniqueIdentifier>{50697600-ea67-4124-8459-ff0e8ddb0907}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -51,8 +57,11 @@
     <ClInclude Include="throw.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
-    <ClInclude Include="EnumCardColor.h">
+    <ClInclude Include="EnumCard.h">
       <Filter>Header Files\Cards</Filter>
+    </ClInclude>
+    <ClInclude Include="Koning.h">
+      <Filter>Header Files\Cards\Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="throw.cpp">
       <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Koning.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

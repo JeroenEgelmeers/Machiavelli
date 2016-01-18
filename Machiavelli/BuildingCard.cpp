@@ -1,12 +1,12 @@
 #include "BuildingCard.h"
 
-
-
-BuildingCard::BuildingCard()
+BuildingCard::BuildingCard(string name, CardColor color, int goldCoins, int silverCoins, CharacterType type) : BaseCard(name, color, type)
 {
+	mGoldCoins		= goldCoins;
+	mSilverCoins	= silverCoins;
 }
 
+BuildingCard::~BuildingCard() {} // TODO
 
-BuildingCard::~BuildingCard()
-{
-}
+void BuildingCard::Execute() {} // TODO
+void BuildingCard::Print() {} // TODO

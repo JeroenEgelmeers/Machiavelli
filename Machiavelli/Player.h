@@ -33,11 +33,12 @@ public:
 	void AddTableCard();		// TODO: Implementation; table cards of player
 	void RemoveTableCard();
 
+	void PrintHandCards();
+	void PrintTableCards();
+	void PrintCharacterCards();
+
 	void AddCharacterCard();	// TODO: Implement character card class
 	void RemoveCharacterCard();
-	void AddBuildCard();		// TODO: Implement Build card class
-	void RemoveBuildCard();
-
 
 private:
 	// Player information
@@ -47,7 +48,8 @@ private:
 	// Game information
 	int gold = 0; // Player's gold: start on 0.
 	std::vector<CharacterCard> characterCards;
-	std::vector<BuildingCard> buildingCards;
+	std::vector<BuildingCard> buildingCardsOnTable;
+	std::vector<BuildingCard> BuildingCardsInHand;
 };
 
 #endif /* Player_hpp */

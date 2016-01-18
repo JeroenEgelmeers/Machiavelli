@@ -1,22 +1,27 @@
 #pragma once
 #include <string>
-#include "EnumCardColor.h"
+#include "BaseCard.h"
+#include "EnumCard.h"
 
-class CharacterCard
+using namespace std;
+
+class CharacterCard : public BaseCard
 {
 private:
-	std::string			mName;
-	CharacterCardColor	mColor;
-	std::string			mSpecialty;
-	int					mPlayId;
+	
+	bool				mSpecialtyPlayed	= false;
+	bool				alive				= true;
+	bool				beenStolen			= false;
 
 public:
-	CharacterCard();
+	CharacterCard(string name, CardColor color, CharacterType type = CharacterType::NONE);
 	~CharacterCard();
 
-	std::string			GetName()		{ return mName; }
-	CharacterCardColor	GetColor()		{ return mColor; }
-	std::string			GetSpecialty()	{ return mSpecialty; }
-	int					GetPlayID()		{ return mPlayId; }
+	bool				GetSpecialtyPlayed()	{ return mSpecialtyPlayed; }
+	bool				GetIsAlive()			{ return alive; }
+	bool				GetBeenStolen()			{ return beenStolen; }
+
+	void		Execute()override; // Should handle everything that the player gets when playing this card.
+	void		Print()override; // Should handle the print events of card.
 };
 

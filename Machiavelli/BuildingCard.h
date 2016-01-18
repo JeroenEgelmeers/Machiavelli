@@ -1,25 +1,21 @@
 #pragma once
-#include <string>
-#include "EnumCardColor.h"
+#include "BaseCard.h"
 
-class BuildingCard
+class BuildingCard : public BaseCard
 {
 private:
-	std::string			mName;
-	BuildingCardColor	mColor; // Enum?
-	std::string			mDescription;
-	int					mGoldCoins;
-	int					mSilverCoins; // Where are those for?
+	int		mGoldCoins;
+	int		mSilverCoins; // Where are those for?
 
 public:
-	BuildingCard();
+	BuildingCard(string name, CardColor color, int goldCoins, int silverCoins, CharacterType type = CharacterType::NONE);
 	~BuildingCard();
 
-	std::string			GetName()			{ return mName;			}
-	BuildingCardColor	GetCardColor()		{ return mColor;		}
-	std::string			GetDescription()	{ return mDescription;	}
-	int					GetGoldCoins()		{ return mGoldCoins;	} // Returns only Gold coins
-	int					GetSilverCoins()	{ return mSilverCoins;	} // Returns only Silver coins
-	int					GetCoins()			{ return (mGoldCoins + mSilverCoins); } // Returns total coins
+	int		GetGoldCoins()		{ return mGoldCoins;	} // Returns only Gold coins
+	int		GetSilverCoins()	{ return mSilverCoins;	} // Returns only Silver coins
+	int		GetCoins()			{ return (mGoldCoins + mSilverCoins); } // Returns total coins
+
+	void	Execute()override; // Should handle everything that the player gets when playing this card.
+	void	Print()override; // Should handle the print events of card.
 };
 
