@@ -25,14 +25,19 @@ public:
 	void set_name(const std::string& new_name) { name = new_name; }
 
 	// Game information
-	void addGold(int amount) { gold += amount; }
-	void removeGold(int amount) { gold -= amount; }
+	void AddGold(int amount) { gold += amount; }
+	void RemoveGold(int amount) { gold -= amount; }
 
-	void addHandCard();			// TODO: Implementation; hand cards of player
-	void addTableCard();		// TODO: Implementation; table cards of player
+	void AddHandCard();			// TODO: Implementation; hand cards of player
+	void RemoveHandCard();
+	void AddTableCard();		// TODO: Implementation; table cards of player
+	void RemoveTableCard();
 
-	void addCharacterCard();	// TODO: Implement character card class
-	void addBuildCard();		// TODO: Implement Build card class
+	void AddCharacterCard();	// TODO: Implement character card class
+	void RemoveCharacterCard();
+	void AddBuildCard();		// TODO: Implement Build card class
+	void RemoveBuildCard();
+
 
 private:
 	// Player information
@@ -40,9 +45,9 @@ private:
 	int  mPlayerID; // Give the player an ID to identify
 
 	// Game information
+	int gold = 0; // Player's gold: start on 0.
 	std::vector<CharacterCard> characterCards;
 	std::vector<BuildingCard> buildingCards;
-	int gold = 0; // Player's gold: start on 0.
 };
 
 #endif /* Player_hpp */

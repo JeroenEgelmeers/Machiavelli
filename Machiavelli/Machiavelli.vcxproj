@@ -22,6 +22,7 @@
     <ClInclude Include="BuildingCard.h" />
     <ClInclude Include="CharacterCard.h" />
     <ClInclude Include="ClientCommand.h" />
+    <ClInclude Include="EnumCardColor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Socket.h" />

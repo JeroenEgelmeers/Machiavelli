@@ -51,6 +51,9 @@
     <ClInclude Include="throw.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
+    <ClInclude Include="EnumCardColor.h">
+      <Filter>Header Files\Cards</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Machiavelli.aps" />
