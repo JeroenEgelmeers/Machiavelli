@@ -1,3 +1,4 @@
 #pragma once
-enum BuildingCardColor		{  };
-enum CharacterCardColor		{  };
+
+enum class BuildingCardColor	{ yellow, green, blue, red, lila };
+enum class CharacterCardColor	{ white, yellow, blue, green, red };
