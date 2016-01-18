@@ -1,5 +1,6 @@
 #pragma once
-class Condotierre
+#include "CharacterCard.h"
+class Condotierre : public CharacterCard
 {
 public:
 	Condotierre();
