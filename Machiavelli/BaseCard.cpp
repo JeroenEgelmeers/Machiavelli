@@ -12,4 +12,4 @@ BaseCard::BaseCard(string name, CardColor color, CharacterType cType)
 BaseCard::~BaseCard(){}
 void Execute() { }
 
-void Print() { return 0; }
+void Print() { }

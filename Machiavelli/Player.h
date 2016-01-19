@@ -11,6 +11,7 @@
 
 #include "CharacterCard.h"
 #include "BuildingCard.h"
+#include "BaseCard.h"
 #include <string>
 #include <vector>
 using namespace std;
@@ -33,6 +34,8 @@ public:
 	void AddTableCard();		// TODO: Implementation; table cards of player
 	void RemoveTableCard();
 
+	void PlayCard(BaseCard card);
+
 	void PrintHandCards();
 	void PrintTableCards();
 	void PrintCharacterCards();
@@ -40,16 +43,24 @@ public:
 	void AddCharacterCard();	// TODO: Implement character card class
 	void RemoveCharacterCard();
 
+	bool IsKing() { return mIsKing; }
+	void SetKing(bool king) { mIsKing = king; }
+
+	bool FirstEightPoints() { return mFirstEightPoints; }
+	void SetFirstEightPoints(bool first) { mFirstEightPoints = first; }
+
 private:
 	// Player information
 	std::string name;
-	int  mPlayerID; // Give the player an ID to identify
+	int  mPlayerID;			// Give the player an ID to identify
+	bool mIsKing;			// Is the player the king?
+	bool mFirstEightPoints;	// If player reaches as first 8 cards, set to true.
 
 	// Game information
-	int gold = 0; // Player's gold: start on 0.
-	std::vector<CharacterCard> characterCards;
-	std::vector<BuildingCard> buildingCardsOnTable;
-	std::vector<BuildingCard> BuildingCardsInHand;
+	int		gold = 0;		// Player's gold: start on 0.
+	std::vector<CharacterCard>	characterCards;
+	std::vector<BuildingCard>	buildingCardsOnTable;
+	std::vector<BuildingCard>	BuildingCardsInHand;
 };
 
 #endif /* Player_hpp */

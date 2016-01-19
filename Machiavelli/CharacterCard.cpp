@@ -1,8 +1,6 @@
 #include "CharacterCard.h"
 
 
-CharacterCard::CharacterCard() {}
-
 CharacterCard::CharacterCard(string name, CardColor color, CharacterType type) : BaseCard(name, color, type) {}
 CharacterCard::~CharacterCard() {}
 

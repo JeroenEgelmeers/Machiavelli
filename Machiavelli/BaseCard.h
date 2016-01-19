@@ -17,11 +17,8 @@ public:
 	BaseCard(string name, CardColor color, CharacterType cType = CharacterType::NONE);
 	~BaseCard();
 
-	virtual void	Execute();
-	virtual void	Print();
-
 	string			GetName()					{ return mName; }
-	string			GetDescription()			{ return mDescription;  }
+	string			GetDescription()			{ return mDescription;  } // Returns for character cards it's specialty
 	bool			GetVisible()				{ return mVisible; }
 	void			SetVisible(bool visible)	{ mVisible = visible; }
 	CharacterType	GetCharacterType()			{ return mCharacterType; }
@@ -32,5 +29,7 @@ public:
 	void			SetColor(CardColor color)	{ mColor = color; }
 	void			SetCharacterType(CharacterType type) { mCharacterType = type; }
 
+	virtual void	Execute();
+	virtual void	Print();
 };
 
