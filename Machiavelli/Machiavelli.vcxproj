@@ -19,13 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCard.h" />
+    <ClInclude Include="Bouwmeester.h" />
     <ClInclude Include="BuildingCard.h" />
     <ClInclude Include="CharacterCard.h" />
     <ClInclude Include="ClientCommand.h" />
+    <ClInclude Include="Condotierre.h" />
+    <ClInclude Include="Dief.h" />
     <ClInclude Include="EnumCard.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Koning.h" />
+    <ClInclude Include="Koopman.h" />
+    <ClInclude Include="Magier.h" />
+    <ClInclude Include="Moordenaar.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Prediker.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Sync_queue.h" />
     <ClInclude Include="throw.h" />
@@ -34,12 +42,20 @@
     <None Include="Machiavelli.aps" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseCard.cpp" />
+    <ClCompile Include="Bouwmeester.cpp" />
     <ClCompile Include="BuildingCard.cpp" />
     <ClCompile Include="CharacterCard.cpp" />
+    <ClCompile Include="Condotierre.cpp" />
+    <ClCompile Include="Dief.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Koning.cpp" />
+    <ClCompile Include="Koopman.cpp" />
+    <ClCompile Include="Magier.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Moordenaar.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Prediker.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="throw.cpp" />
   </ItemGroup>

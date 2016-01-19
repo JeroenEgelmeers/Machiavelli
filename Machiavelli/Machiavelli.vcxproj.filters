@@ -63,6 +63,30 @@
     <ClInclude Include="Koning.h">
       <Filter>Header Files\Cards\Characters</Filter>
     </ClInclude>
+    <ClInclude Include="Moordenaar.h">
+      <Filter>Header Files\Cards\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Dief.h">
+      <Filter>Header Files\Cards\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Magier.h">
+      <Filter>Header Files\Cards\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Prediker.h">
+      <Filter>Header Files\Cards\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopman.h">
+      <Filter>Header Files\Cards\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Bouwmeester.h">
+      <Filter>Header Files\Cards\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Condotierre.h">
+      <Filter>Header Files\Cards\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCard.h">
+      <Filter>Header Files\Cards</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Machiavelli.aps" />
@@ -91,6 +115,30 @@
     </ClCompile>
     <ClCompile Include="Koning.cpp">
       <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Moordenaar.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Dief.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Magier.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Prediker.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopman.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Bouwmeester.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Condotierre.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCard.cpp">
+      <Filter>Source Files\Cards</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
