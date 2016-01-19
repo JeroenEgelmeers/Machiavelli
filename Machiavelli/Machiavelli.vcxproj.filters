@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Cards\Characters">
       <UniqueIdentifier>{50697600-ea67-4124-8459-ff0e8ddb0907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Cards\Buildings">
+      <UniqueIdentifier>{bfa4627f-190d-4375-bb51-ef4e06e8bee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cards\Buildings">
+      <UniqueIdentifier>{67c5c649-1e1b-49b7-9d8e-b8a2839ae8e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -87,6 +93,9 @@
     <ClInclude Include="BaseCard.h">
       <Filter>Header Files\Cards</Filter>
     </ClInclude>
+    <ClInclude Include="CardDeck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Machiavelli.aps" />
@@ -139,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="BaseCard.cpp">
       <Filter>Source Files\Cards</Filter>
+    </ClCompile>
+    <ClCompile Include="CardDeck.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

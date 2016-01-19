@@ -10,6 +10,6 @@ BaseCard::BaseCard(string name, CardColor color, CharacterType cType)
 }
 
 BaseCard::~BaseCard(){}
-void Execute() { }
 
-void Print() { }
+void BaseCard::Execute(){}
+void BaseCard::Print(){}
