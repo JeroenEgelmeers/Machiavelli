@@ -19,6 +19,8 @@ using namespace std;
 #include "ClientCommand.h"
 #include "Player.h"
 
+#include "Game.h"
+
 namespace machiavelli {
     const int tcp_port {1080};
     const string prompt {"machiavelli> "};
@@ -106,6 +108,8 @@ int main(int argc, const char * argv[])
 	// create a server socket
 	ServerSocket server {machiavelli::tcp_port};
 	
+	Game g = Game();
+
 	while (true) {
 		try {
 			while (true) {

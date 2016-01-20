@@ -87,14 +87,17 @@
     <ClInclude Include="Bouwmeester.h">
       <Filter>Header Files\Cards\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="Condotierre.h">
-      <Filter>Header Files\Cards\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="BaseCard.h">
       <Filter>Header Files\Cards</Filter>
     </ClInclude>
     <ClInclude Include="CardDeck.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CardFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Condottiere.h">
+      <Filter>Header Files\Cards\Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -143,14 +146,17 @@
     <ClCompile Include="Bouwmeester.cpp">
       <Filter>Source Files\Cards\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="Condotierre.cpp">
-      <Filter>Source Files\Cards\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="BaseCard.cpp">
       <Filter>Source Files\Cards</Filter>
     </ClCompile>
+    <ClCompile Include="CardFactory.cpp">
+      <Filter>Source Files\Cards</Filter>
+    </ClCompile>
     <ClCompile Include="CardDeck.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files\Cards</Filter>
+    </ClCompile>
+    <ClCompile Include="Condottiere.cpp">
+      <Filter>Source Files\Cards\Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

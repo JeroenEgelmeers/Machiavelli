@@ -23,9 +23,10 @@
     <ClInclude Include="Bouwmeester.h" />
     <ClInclude Include="BuildingCard.h" />
     <ClInclude Include="CardDeck.h" />
+    <ClInclude Include="CardFactory.h" />
     <ClInclude Include="CharacterCard.h" />
     <ClInclude Include="ClientCommand.h" />
-    <ClInclude Include="Condotierre.h" />
+    <ClInclude Include="Condottiere.h" />
     <ClInclude Include="Dief.h" />
     <ClInclude Include="EnumCard.h" />
     <ClInclude Include="Game.h" />
@@ -47,8 +48,9 @@
     <ClCompile Include="Bouwmeester.cpp" />
     <ClCompile Include="BuildingCard.cpp" />
     <ClCompile Include="CardDeck.cpp" />
+    <ClCompile Include="CardFactory.cpp" />
     <ClCompile Include="CharacterCard.cpp" />
-    <ClCompile Include="Condotierre.cpp" />
+    <ClCompile Include="Condottiere.cpp" />
     <ClCompile Include="Dief.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Koning.cpp" />

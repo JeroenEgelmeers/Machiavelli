@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "Game.h"
 #include "EnumCard.h"
 using namespace std;
 
