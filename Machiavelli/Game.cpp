@@ -81,3 +81,7 @@ void Game::RemovePlayer(std::shared_ptr<Player> p) {
 	}
 	cerr << "Player " << p->get_name() << " disconnected." << '\n';
 }
+
+std::shared_ptr<Player> Game::getCurrentPlayer() {
+	return m_currentPlayer;
+}

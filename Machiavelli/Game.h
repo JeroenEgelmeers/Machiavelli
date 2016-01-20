@@ -15,8 +15,11 @@ public:
 
 	void AddPlayer(std::shared_ptr<Player> p);
 	void RemovePlayer(std::shared_ptr<Player> p);
+
+	std::shared_ptr<Player> getCurrentPlayer();
 private:
 	std::vector<std::shared_ptr<Player>> currentPlayers;
+	std::shared_ptr<Player> m_currentPlayer;
 
 	std::vector<std::shared_ptr<BaseCard>> buildCards;
 	std::vector<std::shared_ptr<BaseCard>> classCards;
