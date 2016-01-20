@@ -101,6 +101,18 @@ bool Player::DifferentBuildingBonus()
 	return true;
 }
 
+int Player::AmountBuildlingColorOnTable(CardColor color)
+{
+	int amount = 0;
+	for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
+	{
+		if (buildingCardsOnTable[i]->GetColor == color) {
+			amount++;
+		}
+	}
+	return amount;
+}
+
 void Player::CalculatePoints() {
 	// Get buildling points.
 	mPoints += GetBuildingPoints();

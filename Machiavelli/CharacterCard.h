@@ -10,7 +10,7 @@ class CharacterCard : public BaseCard
 private:
 	
 	bool		mSpecialtyPlayed	= false;
-	bool		mAlive				= true;
+	bool		mAlive				= true; // Can be killed by murderer
 	bool		mBeenStolen			= false;
 
 public:
@@ -20,8 +20,5 @@ public:
 	bool		GetSpecialtyPlayed()	{ return mSpecialtyPlayed; }
 	bool		GetIsAlive()			{ return mAlive; }
 	bool		GetBeenStolen()			{ return mBeenStolen; }
-
-	void		Execute()override; // Should handle everything that the player gets when playing this card.
-	void		Print()override; // Should handle the print events of card.
 };
 

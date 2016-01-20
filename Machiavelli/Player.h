@@ -52,6 +52,7 @@ public:
 
 	int  GetBuildingPoints();
 	bool DifferentBuildingBonus();
+	int	 AmountBuildlingColorOnTable(CardColor color);
 	void CalculatePoints();		// set player points on end of match.
 	int	 GetWinningPoints()					{ return mPoints; }	// return player points on end of match.
 
@@ -69,8 +70,10 @@ private:
 	// Player information
 	std::string name;
 	int		mPlayerID;			// Give the player an ID to identify
-	bool	mIsKing;			// Is the player the king?
 	bool	mFirstEightPoints;	// If player reaches as first 8 cards, set to true.
+
+	// Round information
+	bool	mIsKing;			// Is the player the king?
 
 	// Game information
 	int		mGold		= 0;	// Players gold: start on 0.
