@@ -21,6 +21,8 @@ using namespace std;
 
 #include "Game.h"
 
+Game m_g;
+
 namespace machiavelli {
     const int tcp_port {1080};
     const string prompt {"machiavelli> "};
@@ -63,6 +65,7 @@ void handle_client(shared_ptr<Socket> client) // this function runs in a separat
         client->write(machiavelli::prompt);
 		string name {client->readline()};
 		shared_ptr<Player> player {new Player {name}};
+		m_g.AddPlayer(player);
 		*client << "Welcome, " << name << ", have fun playing our game!\r\n" << machiavelli::prompt;
 
         while (true) { // game loop
@@ -73,6 +76,7 @@ void handle_client(shared_ptr<Socket> client) // this function runs in a separat
 				
 				if (cmd == "quit") {
 					client->write("Bye!\r\n");
+					m_g.RemovePlayer(player);
 					break;
 				}
 
@@ -99,6 +103,7 @@ void handle_client(shared_ptr<Socket> client) // this function runs in a separat
 
 int main(int argc, const char * argv[])
 {
+
     // start command consumer thread
     thread consumer {consume_command};
 
@@ -107,8 +112,6 @@ int main(int argc, const char * argv[])
     
 	// create a server socket
 	ServerSocket server {machiavelli::tcp_port};
-	
-	Game g = Game();
 
 	while (true) {
 		try {

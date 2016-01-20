@@ -19,6 +19,9 @@ Game::~Game()
 void Game::loadResources() {	
 	buildCards = readCSV("../Resources/Bouwkaarten.csv", CardType::bouw);
 	classCards = readCSV("../Resources/Karakterkaarten.csv", CardType::karakter);
+	
+	currentPlayers = std::vector<std::shared_ptr<Player>>();
+	cerr << "Resources initialized." << '\n';
 }
 
 std::vector<std::shared_ptr<BaseCard>> Game::readCSV(const std::string& path, CardType type) {
@@ -62,4 +65,19 @@ std::vector<std::shared_ptr<BaseCard>> Game::readCSV(const std::string& path, Ca
 	}
 
 	return cards;
+}
+
+void Game::AddPlayer(std::shared_ptr<Player> p) {
+	currentPlayers.push_back(p);
+
+	cerr << "Player "<< p->get_name() <<" connected." << '\n';
+}
+
+void Game::RemovePlayer(std::shared_ptr<Player> p) {
+	for (size_t i = 0; i< currentPlayers.size(); i++){
+		if (p->get_name() == currentPlayers[i]->get_name()) {
+			currentPlayers.erase(currentPlayers.begin() + i);
+		}
+	}
+	cerr << "Player " << p->get_name() << " disconnected." << '\n';
 }
