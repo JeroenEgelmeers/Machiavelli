@@ -10,3 +10,7 @@ void Koning::Execute()
 	// Is now KING for next round.
 	// Gets one gold coin for each gold building on table.
 }
+
+void Koning::Print()
+{
+}

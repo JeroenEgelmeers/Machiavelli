@@ -11,3 +11,7 @@ void Moordenaar::Execute()
 	// Kill character (isAlive = false);
 
 }
+
+void Moordenaar::Print()
+{
+}

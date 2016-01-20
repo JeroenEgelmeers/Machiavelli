@@ -11,3 +11,7 @@ void Condottiere::Execute()
 	// Can destroy one buildling from another player. Needs to pay for this the cost of the buildling - 1.
 
 }
+
+void Condottiere::Print()
+{
+}

@@ -11,3 +11,7 @@ void Prediker::Execute()
 	// One gold coin for each blue buildling on table.
 
 }
+
+void Prediker::Print()
+{
+}
