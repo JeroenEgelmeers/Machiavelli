@@ -1,4 +1,5 @@
 #include "CardFactory.h"
+
 #include "BuildingCard.h"
 #include "Moordenaar.h"
 #include "Dief.h"
@@ -35,28 +36,28 @@ CardFactory::~CardFactory()
 {
 }
 
-BaseCard* CardFactory::CreateInstance(string name, int goldCoins, string color) {
-	return new BuildingCard(name, colorResolver.find(color)->second, goldCoins, 0);
+std::shared_ptr<BaseCard> CardFactory::CreateInstance(string name, int goldCoins, string color) {
+	return make_shared<BaseCard>(BuildingCard(name, colorResolver.find(color)->second, goldCoins, 0));
 }
 
-BaseCard* CardFactory::CreateInstance(string type) {
+std::shared_ptr<BaseCard> CardFactory::CreateInstance(string type) {
 	switch (cardTypeResolver.find(type)->second) {
 	case CharacterType::Moordenaar:
-		return new Moordenaar();
+		return make_shared<BaseCard>(Moordenaar());
 	case CharacterType::Dief:
-		return new Dief();
+		return make_shared<BaseCard>(Dief());
 	case CharacterType::Magiër:
-		return new Magier();
+		return make_shared<BaseCard>(Magier());
 	case CharacterType::Koning:
-		return new Koning();
+		return make_shared<BaseCard>(Koning());
 	case CharacterType::Prediker:
-		return new Prediker();
+		return make_shared<BaseCard>(Prediker());
 	case CharacterType::Koopman:
-		return new Koopman();
+		return make_shared<BaseCard>(Koopman());
 	case CharacterType::Bouwmeester:
-		return new Bouwmeester();
+		return make_shared<BaseCard>(Bouwmeester());
 	case CharacterType::Condottiere:
-		return new Condottiere();
+		return make_shared<BaseCard>(Condottiere());
 	}
 	
 	return nullptr;

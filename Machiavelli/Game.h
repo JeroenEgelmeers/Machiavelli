@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "BaseCard.h"
 
@@ -11,12 +12,12 @@ public:
 	Game();
 	~Game();
 private:
-	std::vector<BaseCard*> buildCards;
-	std::vector<BaseCard*> classCards;
+	std::vector<std::shared_ptr<BaseCard>> buildCards;
+	std::vector<std::shared_ptr<BaseCard>> classCards;
 
 	void loadResources();
 
-	std::vector<BaseCard*> readCSV(const std::string& path, CardType type);
+	std::vector<std::shared_ptr<BaseCard>> readCSV(const std::string& path, CardType type);
 };
 
 // No clue what the game class should have. First designing before implementation?

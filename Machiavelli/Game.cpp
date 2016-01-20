@@ -21,12 +21,12 @@ void Game::loadResources() {
 	classCards = readCSV("../Resources/Karakterkaarten.csv", CardType::karakter);
 }
 
-vector<BaseCard*> Game::readCSV(const std::string& path, CardType type) {
+std::vector<std::shared_ptr<BaseCard>> Game::readCSV(const std::string& path, CardType type) {
 	CardFactory m_CF = CardFactory();
 
 	ifstream infile(path);
 
-	vector<BaseCard*> cards;
+	std::vector<std::shared_ptr<BaseCard>> cards;
 
 	while (infile)
 	{
