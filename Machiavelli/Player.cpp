@@ -12,7 +12,6 @@
 #include <vector>
 using namespace std;
 
-
 void Player::RemoveHandCard(shared_ptr<BuildingCard> card)
 {
 	for (size_t i = 0; i < buildingCardsInHand.size(); i++)
@@ -109,5 +108,7 @@ void Player::CalculatePoints() {
 	if (FirstEightPoints())			{ mPoints += 4; }
 	// BONUS: All different buildings build.
 	if (DifferentBuildingBonus())	{ mPoints += 3; }
+	// BONUS: Player has 8 or more cards build but was not the first player to reach.
+	if (buildingCardsOnTable.size() >= 8 && !FirstEightPoints()) { mPoints += 2; }
 	
 }
