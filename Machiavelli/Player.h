@@ -14,6 +14,7 @@
 #include "BaseCard.h"
 #include <string>
 #include <vector>
+#include <memory>
 using namespace std;
 
 class Player {
@@ -29,19 +30,19 @@ public:
 	void AddGold(int amount)				{ mGold += amount; }
 	void RemoveGold(int amount)				{ mGold -= amount; }
 
-	void AddHandCard(BuildingCard card)			{ buildingCardsInHand.push_back(card); }
-	void RemoveHandCard(BuildingCard card)		{ /*buildingCardsInHand.erase(find(buildingCardsInHand.begin(), buildingCardsInHand.end(), card));*/ }
-	void AddTableCard(BuildingCard card)		{ buildingCardsOnTable.push_back(card); }
-	void RemoveTableCard(BuildingCard card)		{ /*buildingCardsOnTable.erase(find(buildingCardsOnTable.begin(), buildingCardsOnTable.end(), card));*/ }
+	void AddHandCard(shared_ptr<BuildingCard> card)			{ buildingCardsInHand.push_back(card); }
+	void AddTableCard(shared_ptr<BuildingCard> card)		{ buildingCardsOnTable.push_back(card); }
+	void RemoveHandCard(shared_ptr<BuildingCard> card);
+	void RemoveTableCard(shared_ptr<BuildingCard> card);
 
-	void PlayCard(BaseCard card);
+	void PlayCard(shared_ptr<BaseCard> card);
 
 	void PrintHandCards();
 	void PrintTableCards();
 	void PrintCharacterCards();
 
-	void AddCharacterCard(CharacterCard card)	{ characterCards.push_back(card); }
-	void RemoveCharacterCard(CharacterCard card) { /*characterCards.erase(find(characterCards.begin(), characterCards.end(), card));*/ }
+	void AddCharacterCard(shared_ptr<CharacterCard> card)	{ characterCards.push_back(card); }
+	void RemoveCharacterCard(shared_ptr<CharacterCard> card) { characterCards.erase(find(characterCards.begin(), characterCards.end(), card)); }
 
 	bool IsKing()							{ return mIsKing; }
 	void SetKing(bool king)					{ mIsKing = king; }
@@ -54,6 +55,16 @@ public:
 	void CalculatePoints();		// set player points on end of match.
 	int	 GetWinningPoints()					{ return mPoints; }	// return player points on end of match.
 
+	shared_ptr<CharacterCard> operator [](CharacterType type) {
+		for (size_t i = 0; i < characterCards.size(); i++)
+		{
+			if (characterCards[i]->GetCharacterType() == type) {
+				return characterCards[i];
+			}
+		}
+		return nullptr;
+	}
+
 private:
 	// Player information
 	std::string name;
@@ -64,9 +75,9 @@ private:
 	// Game information
 	int		mGold		= 0;	// Players gold: start on 0.
 	int		mPoints		= 0;	// Players final score.
-	std::vector<CharacterCard>	characterCards;
-	std::vector<BuildingCard>	buildingCardsOnTable;
-	std::vector<BuildingCard>	buildingCardsInHand;
+	vector<shared_ptr<CharacterCard>>	characterCards;
+	vector<shared_ptr<BuildingCard>>	buildingCardsOnTable;
+	vector<shared_ptr<BuildingCard>>	buildingCardsInHand;
 };
 
 #endif /* Player_hpp */

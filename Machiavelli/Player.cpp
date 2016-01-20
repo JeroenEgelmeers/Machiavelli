@@ -9,34 +9,59 @@
 #include "Player.h"
 #include <memory>
 #include <map>
+#include <vector>
 using namespace std;
 
-void Player::PlayCard(BaseCard card) { 
-	card.Execute();
+
+void Player::RemoveHandCard(shared_ptr<BuildingCard> card)
+{
+	for (size_t i = 0; i < buildingCardsInHand.size(); i++)
+	{
+		if (buildingCardsInHand[i]->GetName() == card->GetName()) {
+			buildingCardsInHand.erase(buildingCardsInHand.begin() + i);
+			break;
+		}
+	}
+}
+
+void Player::RemoveTableCard(shared_ptr<BuildingCard> card)
+{
+	for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
+	{
+		if (buildingCardsOnTable[i]->GetName() == card->GetName()) {
+			buildingCardsOnTable.erase(buildingCardsOnTable.begin() + i);
+			break;
+		}
+	}
+}
+
+void Player::PlayCard(shared_ptr<BaseCard> card)
+{
+	card->Execute();
 }
 
 void Player::PrintHandCards() {
-	for (size_t i = 0; i < buildingCardsInHand.size(); i++)
-	{
-		// Write this line to client.
-		// buildingCardsInHand[i].GetDescription();	
-	}
+	//for (size_t i = 0; i < buildingCardsInHand.size(); i++)
+	//{
+	//	// Write this line to client.
+	//	// buildingCardsInHand[i].GetDescription();	
+	//}
 }
 
 void Player::PrintTableCards() { 
-	for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
-	{
-		// Write this line to client.
-		// buildingCardsOnTable[i].GetDescription();	
-	}
+	//for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
+	//{
+	//	// Write this line to client.
+	//	// buildingCardsOnTable[i].GetDescription();	
+	//}
 }
 
 void Player::PrintCharacterCards() { 
-	for (size_t i = 0; i < characterCards.size(); i++)
-	{
-		// Write this line to client.
-		// characterCards[i].GetDescription();
-	}
+	//for (size_t i = 0; i < characterCards.size(); i++)
+	//{
+	//	// Write this line to client.
+	//	// characterCards[i].GetDescription();
+	//}
 }
 
 int Player::GetBuildingPoints()
@@ -44,7 +69,7 @@ int Player::GetBuildingPoints()
 	int points = 0;
 	for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
 	{
-		points += buildingCardsOnTable[i].GetCoins();
+		points += buildingCardsOnTable[i]->GetCoins();
 	}
 	return points;
 }
@@ -60,7 +85,7 @@ bool Player::DifferentBuildingBonus()
 
 	for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
 	{
-		std::map<CardColor, bool>::iterator it = hasDifferentCards.find(buildingCardsOnTable[i].GetColor());
+		std::map<CardColor, bool>::iterator it = hasDifferentCards.find(buildingCardsOnTable[i]->GetColor());
 		if (it != hasDifferentCards.end() && !it->second) { it->second = true; }
 	}
 
