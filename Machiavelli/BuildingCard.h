@@ -15,7 +15,7 @@ public:
 	int		GetSilverCoins()	{ return mSilverCoins;	} // Returns only Silver coins
 	int		GetCoins()			{ return (mGoldCoins + mSilverCoins); } // Returns total coins
 
-	void	Execute()override; // Should handle everything that the player gets when playing this card.
+	void	Execute(Game game)override; // Should handle everything that the player gets when playing this card.
 	void	Print()override; // Should handle the print events of card.
 };
 

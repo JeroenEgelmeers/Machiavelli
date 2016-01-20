@@ -7,6 +7,7 @@
 //
 
 #include "Player.h"
+#include "Game.h"
 #include <memory>
 #include <map>
 #include <vector>
@@ -36,7 +37,7 @@ void Player::RemoveTableCard(shared_ptr<BuildingCard> card)
 
 void Player::PlayCard(shared_ptr<BaseCard> card)
 {
-	card->Execute();
+	//card->Execute(game); // TODO :: Should be a game var in Player
 }
 
 void Player::PrintHandCards() {
@@ -61,6 +62,12 @@ void Player::PrintCharacterCards() {
 	//	// Write this line to client.
 	//	// characterCards[i].GetDescription();
 	//}
+}
+
+void Player::SetKing(bool king)
+{
+	mIsKing = true;
+	// TODO Remove the king value from other players!
 }
 
 int Player::GetBuildingPoints()

@@ -1,6 +1,5 @@
 #include "BaseCard.h"
-
-
+#include "Game.h"
 
 BaseCard::BaseCard(string name, CardColor color, CharacterType cType)
 {
@@ -11,5 +10,5 @@ BaseCard::BaseCard(string name, CardColor color, CharacterType cType)
 
 BaseCard::~BaseCard(){}
 
-void BaseCard::Execute(){}
-void BaseCard::Print(){}
+void BaseCard::Execute(Game game) {}
+void BaseCard::Print() {}

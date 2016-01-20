@@ -1,16 +1,13 @@
 #include "Bouwmeester.h"
-
-
+#include "Game.h"
 
 Bouwmeester::Bouwmeester() : CharacterCard("Bouwmeester", CardColor::white, CharacterType::Bouwmeester){}
 Bouwmeester::~Bouwmeester(){}
 
-void Bouwmeester::Execute()
+void Bouwmeester::Execute(Game game)
 {
-	// Get two buildling cards in hand.
-	// Can build 3 buildlings in each round!
+	// TODO: Get two buildling cards in hand.
+	// TODO: Can build 3 buildlings in each round!
 }
 
-void Bouwmeester::Print()
-{
-}
+void Bouwmeester::Print() {}

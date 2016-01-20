@@ -17,6 +17,8 @@
 #include <memory>
 using namespace std;
 
+class Game;
+
 class Player {
 public:
 	Player() {}
@@ -45,7 +47,7 @@ public:
 	void RemoveCharacterCard(shared_ptr<CharacterCard> card) { characterCards.erase(find(characterCards.begin(), characterCards.end(), card)); }
 
 	bool IsKing()							{ return mIsKing; }
-	void SetKing(bool king)					{ mIsKing = king; }
+	void SetKing(bool king);
 
 	bool FirstEightPoints()					{ return mFirstEightPoints; }
 	void SetFirstEightPoints(bool first)	{ mFirstEightPoints = first; }

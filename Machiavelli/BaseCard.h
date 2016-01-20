@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
 #include "EnumCard.h"
+
 using namespace std;
+
+class Game;
 
 class BaseCard
 {
@@ -29,7 +32,7 @@ public:
 	void			SetColor(CardColor color)	{ mColor = color; }
 	void			SetCharacterType(CharacterType type) { mCharacterType = type; }
 
-	virtual void	Execute();
+	virtual void	Execute(Game game);
 	virtual void	Print();
 };
 
