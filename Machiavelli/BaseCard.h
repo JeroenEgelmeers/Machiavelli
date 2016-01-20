@@ -21,6 +21,7 @@ public:
 	bool			GetVisible()				{ return mVisible; }
 	void			SetVisible(bool visible)	{ mVisible = visible; }
 	CharacterType	GetCharacterType()			{ return mCharacterType; }
+	CardColor			GetColor()				{ return mColor; }
 
 	// For setup
 	void			SetName(string name)		{ mName = name; }
