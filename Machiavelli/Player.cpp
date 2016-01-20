@@ -52,11 +52,11 @@ int Player::GetBuildingPoints()
 bool Player::DifferentBuildingBonus()
 {
 	map<CardColor, bool> hasDifferentCards;
-	hasDifferentCards.insert<CardColor::yellow, false>;
-	hasDifferentCards.insert<CardColor::green, false>;
-	hasDifferentCards.insert<CardColor::blue, false>;
-	hasDifferentCards.insert<CardColor::red, false>;
-	hasDifferentCards.insert<CardColor::lila, false>;
+	hasDifferentCards.insert(std::pair<CardColor, bool>(CardColor::yellow, false));
+	hasDifferentCards.insert(std::pair<CardColor, bool>(CardColor::green, false));
+	hasDifferentCards.insert(std::pair<CardColor, bool>(CardColor::blue, false));
+	hasDifferentCards.insert(std::pair<CardColor, bool>(CardColor::red, false));
+	hasDifferentCards.insert(std::pair<CardColor, bool>(CardColor::lila, false));
 
 	for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
 	{
@@ -81,7 +81,7 @@ void Player::CalculatePoints() {
 	// Get buildling points.
 	mPoints += GetBuildingPoints();
 	// BONUS: First to eight points.
-	if (FirstEightPoints)			{ mPoints += 4; }
+	if (FirstEightPoints())			{ mPoints += 4; }
 	// BONUS: All different buildings build.
 	if (DifferentBuildingBonus())	{ mPoints += 3; }
 	

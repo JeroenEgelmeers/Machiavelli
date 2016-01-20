@@ -30,9 +30,9 @@ public:
 	void RemoveGold(int amount)				{ mGold -= amount; }
 
 	void AddHandCard(BuildingCard card)			{ buildingCardsInHand.push_back(card); }
-	void RemoveHandCard(BuildingCard card)		{ buildingCardsInHand.erase(find(buildingCardsInHand.begin(), buildingCardsInHand.end(), card)); }
+	void RemoveHandCard(BuildingCard card)		{ /*buildingCardsInHand.erase(find(buildingCardsInHand.begin(), buildingCardsInHand.end(), card));*/ }
 	void AddTableCard(BuildingCard card)		{ buildingCardsOnTable.push_back(card); }
-	void RemoveTableCard(BuildingCard card)		{ buildingCardsOnTable.erase(find(buildingCardsOnTable.begin(), buildingCardsOnTable.end(), card)); }
+	void RemoveTableCard(BuildingCard card)		{ /*buildingCardsOnTable.erase(find(buildingCardsOnTable.begin(), buildingCardsOnTable.end(), card));*/ }
 
 	void PlayCard(BaseCard card);
 
@@ -41,7 +41,7 @@ public:
 	void PrintCharacterCards();
 
 	void AddCharacterCard(CharacterCard card)	{ characterCards.push_back(card); }
-	void RemoveCharacterCard(CharacterCard card) { characterCards.erase(find(characterCards.begin(), characterCards.end(), card)); }
+	void RemoveCharacterCard(CharacterCard card) { /*characterCards.erase(find(characterCards.begin(), characterCards.end(), card));*/ }
 
 	bool IsKing()							{ return mIsKing; }
 	void SetKing(bool king)					{ mIsKing = king; }
