@@ -9,15 +9,9 @@
 #include "Player.h"
 using namespace std;
 
-void Player::AddHandCard() { }
+void Player::PlayCard(BaseCard card) { 
 
-void Player::RemoveHandCard() { }
-
-void Player::AddTableCard() { }
-
-void Player::RemoveTableCard() { }
-
-void Player::PlayCard(BaseCard card) { }
+}
 
 void Player::PrintHandCards() { }
 
@@ -25,10 +19,7 @@ void Player::PrintTableCards() { }
 
 void Player::PrintCharacterCards() { }
 
-void Player::AddCharacterCard() { }
-
-void Player::RemoveCharacterCard() { }
-
-void Player::CalculatePoints() { }
-
-int Player::GetWinningPoints() { return 0; }
+void Player::CalculatePoints() { 
+	// Loop through all table cards and get all gold AND silver coins from all cards.
+	// Calculate them and write them down in $points;
+}
