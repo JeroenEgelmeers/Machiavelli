@@ -49,7 +49,9 @@ public:
 	bool FirstEightPoints()					{ return mFirstEightPoints; }
 	void SetFirstEightPoints(bool first)	{ mFirstEightPoints = first; }
 
-	void CalculatePoints();	// set player points on end of match.
+	int  GetBuildingPoints();
+	bool DifferentBuildingBonus();
+	void CalculatePoints();		// set player points on end of match.
 	int	 GetWinningPoints()					{ return mPoints; }	// return player points on end of match.
 
 private:
