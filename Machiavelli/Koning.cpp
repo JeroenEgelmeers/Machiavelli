@@ -7,10 +7,16 @@ Koning::~Koning() { }
 
 void Koning::Execute(Game game)
 {
+	game.getCurrentPlayer()->getClient()->write("You're playing the King.");
 	// Is now KING for next round.
-	game.getCurrentPlayer()->SetKing(true);	
+	game.getCurrentPlayer()->SetKing(true);
+	game.getCurrentPlayer()->getClient()->write("You'll be the king next round");
 	// Gets one gold coin for each gold building on table.
-	game.getCurrentPlayer()->AddGold(game.getCurrentPlayer()->AmountBuildlingColorOnTable(CardColor::yellow));
+	int earnsGoldCoins = game.getCurrentPlayer()->AmountBuildlingColorOnTable(CardColor::yellow);
+	if (earnsGoldCoins > 0) {
+		game.getCurrentPlayer()->AddGold(earnsGoldCoins);
+		game.getCurrentPlayer()->getClient()->write("You earned " + std::to_string(earnsGoldCoins) + " gold for your red buildlings.");
+	}
 }
 
 void Koning::Print()

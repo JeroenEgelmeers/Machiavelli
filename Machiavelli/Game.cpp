@@ -29,6 +29,10 @@ void Game::loadResources() {
 void Game::NewRound()
 {
 	// Reset deck (Characters).
+	// Reset King status (will be re-earned by the CharacterCard: King)
+	for (const auto &p : currentPlayers) {
+		p->SetKing(false);
+	}
 	SetupRound();
 }
 

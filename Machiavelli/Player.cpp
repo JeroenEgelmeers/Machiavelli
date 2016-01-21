@@ -68,7 +68,6 @@ void Player::PrintCharacterCards() {
 void Player::SetKing(bool king)
 {
 	mIsKing = true;
-	// TODO Remove the king value from other players!
 }
 
 int Player::GetBuildingPoints()

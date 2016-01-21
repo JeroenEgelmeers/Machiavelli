@@ -9,7 +9,11 @@ void Prediker::Execute(Game game)
 {
 	// Protected to condotierre.
 	// One gold coin for each blue buildling on table.
-	game.getCurrentPlayer()->AddGold(game.getCurrentPlayer()->AmountBuildlingColorOnTable(CardColor::blue));
+	int earnsGoldCoins = game.getCurrentPlayer()->AmountBuildlingColorOnTable(CardColor::blue);
+	if (earnsGoldCoins > 0) {
+		game.getCurrentPlayer()->AddGold(earnsGoldCoins);
+		game.getCurrentPlayer()->getClient()->write("You earned " + std::to_string(earnsGoldCoins) + " gold for your red buildlings.");
+	}
 }
 
 void Prediker::Print()
