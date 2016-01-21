@@ -22,10 +22,12 @@ using namespace std;
 
 class Game;
 
+static int playerCount;
+
 class Player {
 public:
 	Player() {}
-	Player(const std::string& name, const shared_ptr<Game> game, const shared_ptr<Socket> socket) : client{ socket }, game { game }, name{ name } {}
+	Player(const std::string& name, const shared_ptr<Game> game, const shared_ptr<Socket> socket) : client{ socket }, game{ game }, name{ name }, m_isReady{ false }, mPlayerID{ playerCount } { playerCount++; }
 	
 	// Player information
 	std::string get_name() const			{ return name; }
@@ -61,6 +63,9 @@ public:
 	void CalculatePoints();		// set player points on end of match.
 	int	 GetWinningPoints()					{ return mPoints; }	// return player points on end of match.
 
+	bool isReady() { return m_isReady; };
+	void isReady(bool r) { m_isReady = r; };
+
 	shared_ptr<CharacterCard> operator [](CharacterType type) {
 		for (size_t i = 0; i < characterCards.size(); i++)
 		{
@@ -78,6 +83,8 @@ private:
 	std::string name;
 	const shared_ptr<Game> game;
 	const shared_ptr<Socket> client;
+
+	bool m_isReady;
 
 	int		mPlayerID;			// Give the player an ID to identify
 	bool	mFirstEightPoints;	// If player reaches as first 8 cards, set to true.

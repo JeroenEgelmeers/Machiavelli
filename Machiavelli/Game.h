@@ -19,7 +19,11 @@ public:
 	std::shared_ptr<Player> getCurrentPlayer();
 
 	void handleCommand(shared_ptr<Player> player, std::string command);
+
+	bool isGameStarted() { return gameStarted; };
 private:
+	bool gameStarted;
+
 	std::vector<std::shared_ptr<Player>> currentPlayers;
 	std::shared_ptr<Player> m_currentPlayer;
 
@@ -29,6 +33,8 @@ private:
 	void loadResources();
 
 	std::vector<std::shared_ptr<BaseCard>> readCSV(const std::string& path, CardType type);
+
+	bool allPlayersReady();
 };
 
 // No clue what the game class should have. First designing before implementation?

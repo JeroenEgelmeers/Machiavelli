@@ -3,11 +3,12 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 #include "CardFactory.h"
 
 
-Game::Game()
+Game::Game() : gameStarted{ false }
 {
 	loadResources();
 }
@@ -88,11 +89,28 @@ std::shared_ptr<Player> Game::getCurrentPlayer() {
 void Game::handleCommand(shared_ptr<Player> player, string command) {
 	string message;
 
-	if (command == "quit") {
-		message = "Player " + player->get_name() + " has quit.";
+	std::transform(command.begin(), command.end(), command.begin(), ::tolower);
+
+	if (command == "join") {
+		message = "Player " + player->get_name() + " has joined, welcome him.\r\n";		
+	}
+	else if (command == "quit") {
+		message = "Player " + player->get_name() + " has quit.\r\n";
+	}
+	else if (command == "ready") {
+		player->isReady(true);
+		message = "Player " + player->get_name() + " is ready.\r\n";
+		if (currentPlayers.size() > 1 && allPlayersReady()) {
+			gameStarted = true;
+			message += "All players are ready. Let the best one win!";
+		}
+	}
+	else if (command == "not ready") {
+		player->isReady(false);
+		message = "Player " + player->get_name() + " is not ready.\r\n";
 	}
 	else {
-		message = command;
+		message = command + "\r\n";
 	}
 
 	for (const auto &p : currentPlayers) {
@@ -100,4 +118,14 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 			p->getClient()->write(message);
 		}
 	}
-};
+}
+
+bool Game::allPlayersReady() {
+	for (const auto &p : currentPlayers) {
+		if (p->isReady() != true) {
+			return false;
+		}
+	}
+
+	return true;
+}
