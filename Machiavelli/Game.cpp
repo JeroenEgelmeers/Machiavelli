@@ -25,6 +25,13 @@ void Game::loadResources() {
 	cerr << "Resources initialized." << '\n';
 }
 
+void Game::StartGame()
+{
+	gameStarted = true;
+	currentPlayers.at(0)->SetKing(true); // First player will be the King!
+	m_currentPlayer = currentPlayers.at(0);
+	//message += currentPlayers.at(0)->get_name() + " is the king and may now pick a character card!";
+}
 
 void Game::NewRound()
 {
@@ -147,34 +154,95 @@ std::shared_ptr<Player> Game::getCurrentPlayer() {
 void Game::handleCommand(shared_ptr<Player> player, string command) {
 	string message;
 
-	std::transform(command.begin(), command.end(), command.begin(), ::tolower);
+	if (gameStarted == false) {
+		if (command == "join") {
+			message = "Player " + player->get_name() + " has joined, welcome him.\r\n" + "machiavelli> ";
 
-	if (command == "join") {
-		message = "Player " + player->get_name() + " has joined, welcome him.\r\n";		
-	}
-	else if (command == "quit") {
-		message = "Player " + player->get_name() + " has quit.\r\n";
-	}
-	else if (command == "ready") {
-		player->isReady(true);
-		message = "Player " + player->get_name() + " is ready.\r\n";
-		if (currentPlayers.size() > 1 && allPlayersReady()) {
-			gameStarted = true;
-			message += "All players are ready. Let the best one win!\r\n";
-			currentPlayers.at(0)->SetKing(true); // First player will be the King!
-			message += currentPlayers.at(0)->get_name() + " is the king and may now pick a character card!";
+			for (const auto &p : currentPlayers) {
+				if (p->getId() != player->getId()) {
+					p->getClient()->write(message);
+				}
+				else {
+					p->getClient()->write("machiavelli> ");
+				}
+			}
+		}
+		else if (command == "quit") {
+			message = "Player " + player->get_name() + " has quit.\r\n" + "machiavelli> ";
+
+			for (const auto &p : currentPlayers) {
+				if (p->getId() != player->getId()) {
+					p->getClient()->write(message);
+				}
+				else {
+					p->getClient()->write("machiavelli> ");
+				}
+			}
+		}
+		else if (command == "ready") {
+			player->isReady(true);
+			message = "Player " + player->get_name() + " is ready.\r\n" + "machiavelli> ";
+			for (const auto &p : currentPlayers) {
+				if (p->getId() != player->getId()) {
+					p->getClient()->write(message);
+				}
+				else {
+					p->getClient()->write("machiavelli> ");
+				}
+			}
+			if (currentPlayers.size() > 1 && allPlayersReady()) {
+				message = "All players are ready. Let the best one win!\r\nmachiavelli> ";
+				gameStarted = true;
+
+				for (const auto &p : currentPlayers) {
+					p->getClient()->write(message);
+				}
+			}
+		}
+		else if (command == "not ready") {
+			player->isReady(false);
+			message = "Player " + player->get_name() + " is not ready.\r\n" + "machiavelli> ";
+			for (const auto &p : currentPlayers) {
+				if (p->getId() != player->getId()) {
+					p->getClient()->write(message);
+				}
+				else {
+					p->getClient()->write("machiavelli> ");
+				}
+			}
+		}
+		else {
+			message = "machiavelli> Did not understand command " + command + " please repeat. \r\n"+"machiavelli> ";
+			player->getClient()->write(message);
 		}
 	}
-	else if (command == "not ready") {
-		player->isReady(false);
-		message = "Player " + player->get_name() + " is not ready.\r\n";
-	}
-	else {
-		message = command + "\r\n";
-	}
+	else if (gameStarted == true) {
+		if (command == "quit") {
+			message = "Player " + player->get_name() + " has left the game.\r\n" + "machiavelli> ";
 
-	for (const auto &p : currentPlayers) {
-		p->getClient()->write(message);
+			for (const auto &p : currentPlayers) {
+				if (p->getId() != player->getId()) {
+					p->getClient()->write(message);
+				}
+				else {
+					p->getClient()->write("machiavelli> ");
+				}
+			}
+
+			if (currentPlayers.size() <= 1) {
+				gameStarted = false; 
+				for (const auto &p : currentPlayers) {		
+					message = "Insufficient players remaining, game stopped. \r\nmachiavelli> ";
+					p->getClient()->write(message);
+					p->isReady(false);
+				}
+				
+			}
+		}
+		else {
+			message = "machiavelli> Did not understand command " + command + " please repeat. \r\n" + "machiavelli> ";
+			player->getClient()->write(message);
+		}
 	}
 }
 
