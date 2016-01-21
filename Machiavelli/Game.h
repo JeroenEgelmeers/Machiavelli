@@ -31,6 +31,10 @@ private:
 	std::vector<std::shared_ptr<BaseCard>> classCards;
 
 	void loadResources();
+	void NewRound();
+	void SetupRound();
+	void PlayRound();
+	void VictoryCheck();
 
 	std::vector<std::shared_ptr<BaseCard>> readCSV(const std::string& path, CardType type);
 

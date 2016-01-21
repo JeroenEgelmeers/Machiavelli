@@ -25,6 +25,59 @@ void Game::loadResources() {
 	cerr << "Resources initialized." << '\n';
 }
 
+
+void Game::NewRound()
+{
+	// Reset deck (Characters).
+	SetupRound();
+}
+
+void Game::SetupRound()
+{
+	// TODO SetupRound implementation.
+	PlayRound();
+}
+
+void Game::PlayRound()
+{
+	// TODO playRound implementation.
+	VictoryCheck();
+}
+
+void Game::VictoryCheck()
+{
+	bool victory = false;
+	for (const auto &p : currentPlayers) {
+		if (p->FirstEightPoints()) {
+			victory = true;
+			p->getClient()->write("Game finished!" + p->get_name() + " played 8 or more buildling cards!");
+		}
+	}
+
+	if (victory) {
+		string	winnerName		=	"";
+		int		winnerPoints	=	0;
+
+		// Check best player
+		for (const auto &p : currentPlayers) {
+			p->CalculatePoints();
+			if (winnerPoints < p->GetWinningPoints()) {
+				winnerPoints = p->GetWinningPoints();
+				winnerName = p->get_name();
+				p->getClient()->write("You've got:" + std::to_string(p->GetWinningPoints()) + " points!");
+			}
+		}
+
+		// Send message to all players who won the game.
+		for (const auto &p : currentPlayers) {
+			p->getClient()->write(winnerName + " won the game with " + std::to_string(winnerPoints) + " points!");
+		}
+	}
+	else {
+		NewRound();
+	}
+}
+
 std::vector<std::shared_ptr<BaseCard>> Game::readCSV(const std::string& path, CardType type) {
 	CardFactory m_CF = CardFactory();
 
@@ -103,6 +156,7 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 		if (currentPlayers.size() > 1 && allPlayersReady()) {
 			gameStarted = true;
 			message += "All players are ready. Let the best one win!";
+			currentPlayers.at(0)->SetKing(true); // First player will be the King!
 		}
 	}
 	else if (command == "not ready") {
