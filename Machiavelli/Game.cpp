@@ -114,9 +114,7 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 	}
 
 	for (const auto &p : currentPlayers) {
-		if (p->get_name() != player->get_name()) {
-			p->getClient()->write(message);
-		}
+		p->getClient()->write(message);
 	}
 }
 
