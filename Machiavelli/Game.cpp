@@ -28,17 +28,18 @@ void Game::loadResources() {
 
 void Game::NewRound()
 {
-	// Reset deck (Characters).
-	// Reset King status (will be re-earned by the CharacterCard: King)
-	for (const auto &p : currentPlayers) {
-		p->SetKing(false);
-	}
+	// TODO Reset deck (Characters).
 	SetupRound();
 }
 
 void Game::SetupRound()
 {
 	// TODO SetupRound implementation.
+
+	// Reset King status (will be re-earned by the CharacterCard: King)
+	for (const auto &p : currentPlayers) {
+		p->SetKing(false);
+	}
 	PlayRound();
 }
 
@@ -159,8 +160,9 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 		message = "Player " + player->get_name() + " is ready.\r\n";
 		if (currentPlayers.size() > 1 && allPlayersReady()) {
 			gameStarted = true;
-			message += "All players are ready. Let the best one win!";
+			message += "All players are ready. Let the best one win!\r\n";
 			currentPlayers.at(0)->SetKing(true); // First player will be the King!
+			message += currentPlayers.at(0)->get_name() + " is the king and may now pick a character card!";
 		}
 	}
 	else if (command == "not ready") {
