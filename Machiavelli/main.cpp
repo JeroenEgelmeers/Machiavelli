@@ -21,7 +21,7 @@ using namespace std;
 
 #include "Game.h"
 
-Game m_g;
+shared_ptr<Game> m_g;
 
 namespace machiavelli {
     const int tcp_port {1080};
@@ -29,6 +29,7 @@ namespace machiavelli {
 }
 
 static Sync_queue<ClientCommand> queue;
+
 
 void consume_command() // runs in its own thread
 {
@@ -38,8 +39,10 @@ void consume_command() // runs in its own thread
 			shared_ptr<Socket> client {command.get_client()};
 			shared_ptr<Player> player {command.get_player()};
 			try {
+				m_g->handleCommand(player, command.get_cmd());
+
 				// TODO handle command here
-				*client << player->get_name() << ", you wrote: '" << command.get_cmd() << "', but I'll ignore that for now.\r\n" << machiavelli::prompt;
+				//*client << player->get_name() << ", you wrote: '" << command.get_cmd() << "', but I'll ignore that for now.\r\n" << machiavelli::prompt;
 			} catch (const exception& ex) {
 				cerr << "*** exception in consumer thread for player " << player->get_name() << ": " << ex.what() << '\n';
 				if (client->is_open()) {
@@ -64,8 +67,8 @@ void handle_client(shared_ptr<Socket> client) // this function runs in a separat
 		client->write("What's your name?\r\n");
         client->write(machiavelli::prompt);
 		string name {client->readline()};
-		shared_ptr<Player> player {new Player {name}};
-		m_g.AddPlayer(player);
+		shared_ptr<Player> player {new Player {name, m_g, client}};
+		m_g->AddPlayer(player);
 		*client << "Welcome, " << name << ", have fun playing our game!\r\n" << machiavelli::prompt;
 
         while (true) { // game loop
@@ -74,13 +77,14 @@ void handle_client(shared_ptr<Socket> client) // this function runs in a separat
 				string cmd {client->readline()};
 				cerr << '[' << client->get_dotted_ip() << " (" << client->get_socket() << ") " << player->get_name() << "] " << cmd << '\n';
 				
+
 				if (cmd == "quit") {
 					client->write("Bye!\r\n");
-					m_g.RemovePlayer(player);
-					break;
+					m_g->RemovePlayer(player);
+					break; // out of game loop, will end this thread and close connection
 				}
 
-                ClientCommand command {cmd, client, player};
+				ClientCommand command{ cmd, client, player };
                 queue.put(command);
 
             } catch (const exception& ex) {
@@ -103,12 +107,14 @@ void handle_client(shared_ptr<Socket> client) // this function runs in a separat
 
 int main(int argc, const char * argv[])
 {
+	m_g = make_shared<Game>(Game());
 
     // start command consumer thread
     thread consumer {consume_command};
 
-    // keep client threads here, so we don't need to detach them
-    vector<thread> handlers;
+	// keep client threads here, so we don't need to detach them
+	vector<thread> handlers;
+
     
 	// create a server socket
 	ServerSocket server {machiavelli::tcp_port};

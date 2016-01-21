@@ -17,6 +17,8 @@ public:
 	void RemovePlayer(std::shared_ptr<Player> p);
 
 	std::shared_ptr<Player> getCurrentPlayer();
+
+	void handleCommand(shared_ptr<Player> player, std::string command);
 private:
 	std::vector<std::shared_ptr<Player>> currentPlayers;
 	std::shared_ptr<Player> m_currentPlayer;

@@ -79,9 +79,25 @@ void Game::RemovePlayer(std::shared_ptr<Player> p) {
 			currentPlayers.erase(currentPlayers.begin() + i);
 		}
 	}
-	cerr << "Player " << p->get_name() << " disconnected." << '\n';
 }
 
 std::shared_ptr<Player> Game::getCurrentPlayer() {
 	return m_currentPlayer;
 }
+
+void Game::handleCommand(shared_ptr<Player> player, string command) {
+	string message;
+
+	if (command == "quit") {
+		message = "Player " + player->get_name() + " has quit.";
+	}
+	else {
+		message = command;
+	}
+
+	for (const auto &p : currentPlayers) {
+		if (p->get_name() != player->get_name()) {
+			p->getClient()->write(message);
+		}
+	}
+};

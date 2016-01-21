@@ -9,12 +9,15 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-#include "CharacterCard.h"
-#include "BuildingCard.h"
-#include "BaseCard.h"
+
+#include "Socket.h"
 #include <string>
 #include <vector>
 #include <memory>
+#include "CharacterCard.h"
+#include "BuildingCard.h"
+#include "BaseCard.h"
+
 using namespace std;
 
 class Game;
@@ -22,7 +25,7 @@ class Game;
 class Player {
 public:
 	Player() {}
-	Player(const std::string& name) : name {name} {}
+	Player(const std::string& name, const shared_ptr<Game> game, const shared_ptr<Socket> socket) : client{ socket }, game { game }, name{ name } {}
 	
 	// Player information
 	std::string get_name() const			{ return name; }
@@ -68,9 +71,14 @@ public:
 		return nullptr;
 	}
 
+	const shared_ptr<Socket> getClient() { return client; }
+
 private:
 	// Player information
 	std::string name;
+	const shared_ptr<Game> game;
+	const shared_ptr<Socket> client;
+
 	int		mPlayerID;			// Give the player an ID to identify
 	bool	mFirstEightPoints;	// If player reaches as first 8 cards, set to true.
 

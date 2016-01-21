@@ -5,9 +5,10 @@
 //  Created by Bob Polis on 23-11-15.
 //  Copyright © 2015 Avans Hogeschool, 's-Hertogenbosch. All rights reserved.
 //
-
+#include "BaseCard.h"
 #include "Player.h"
 #include "Game.h"
+
 #include <memory>
 #include <map>
 #include <vector>
