@@ -5,7 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <memory>
-
+#include <thread>
 #include "CardFactory.h"
 
 
@@ -29,6 +29,7 @@ void Game::loadResources() {
 void Game::StartGame()
 {
 	gameStarted = true;
+	while (gameStarted) {};
 	currentPlayers.at(0)->SetKing(true); // First player will be the King!
 	m_currentPlayer = currentPlayers.at(0);
 	NewRound();
@@ -359,12 +360,14 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 			}
 			if (currentPlayers.size() > 1 && allPlayersReady()) {
 				message = "All players are ready. Let the best one win!\r\nmachiavelli> ";
-				gameStarted = true;
 
 				for (const auto &p : currentPlayers) {
 					p->getClient()->write(message);
 				}
 				StartGame();
+
+				thread g{ &Game::StartGame, this };
+				g.detach();
 			}
 		}
 		else if (command == "not ready") {
@@ -396,6 +399,7 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 					p->getClient()->write("machiavelli> ");
 				}
 			}
+
 
 			if (currentPlayers.size() <= 1) {
 				gameStarted = false; 
