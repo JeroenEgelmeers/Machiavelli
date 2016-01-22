@@ -196,6 +196,11 @@ void Game::PlayRound()
 						m_currentPlayer->AddGold(2);
 						m_currentPlayer->getClient()->write("You took 2 gold coins.");
 						validInput = true;
+						for (const auto &p : currentPlayers) {
+							if (p->getId() != m_currentPlayer->getId()) {
+								p->getClient()->write(m_currentPlayer->get_name() + " took 2 gold coins!");
+							}
+						}
 						break;
 					case 2:
 						deckBuildingCards.RemoveCardIndex(0);
@@ -203,6 +208,11 @@ void Game::PlayRound()
 						m_currentPlayer->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
 						deckBuildingCards.RemoveCardIndex(0);
 						validInput = true;
+						for (const auto &p : currentPlayers) {
+							if (p->getId() != m_currentPlayer->getId()) {
+								p->getClient()->write(m_currentPlayer->get_name() + " took 1 building card!");
+							}
+						}
 						break;
 					default:
 						break;
@@ -252,9 +262,15 @@ void Game::PlayRound()
 							if (playerInputInner <= i) {
 								if (m_currentPlayer->PlayCard(i)) {
 									canBuild--;
+									for (const auto &p : currentPlayers) {
+										p->getClient()->write(m_currentPlayer->get_name() + " build one building!");
+									}
 									if (!playerReachedEightPoints && m_currentPlayer->GetBuildingPoints() >= 8) {
 										playerReachedEightPoints = true;
 										m_currentPlayer->SetFirstEightPoints(true);
+										for (const auto &p : currentPlayers) {
+											p->getClient()->write(m_currentPlayer->get_name() + " reached 8 points!");
+										}
 									}
 								}
 								validInputInner = true;
