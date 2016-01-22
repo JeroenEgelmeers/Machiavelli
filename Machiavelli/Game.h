@@ -32,6 +32,8 @@ private:
 	std::vector<std::shared_ptr<BaseCard>> characterCards;
 
 	void loadResources();
+
+	void StartGame();
 	void NewRound();
 	void SetupRound();
 		void PickCharacterCard();

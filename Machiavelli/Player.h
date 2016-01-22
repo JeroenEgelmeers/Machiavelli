@@ -66,6 +66,8 @@ public:
 	bool isReady() { return m_isReady; };
 	void isReady(bool r) { m_isReady = r; };
 
+	int getId() { return mPlayerID;  }
+
 	shared_ptr<CharacterCard> operator [](CharacterType type) {
 		for (size_t i = 0; i < characterCards.size(); i++)
 		{

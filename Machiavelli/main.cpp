@@ -83,11 +83,13 @@ void handle_client(shared_ptr<Socket> client) // this function runs in a separat
 					// read first line of request
 					string cmd{ client->readline() };
 					cerr << '[' << client->get_dotted_ip() << " (" << client->get_socket() << ") " << player->get_name() << "] " << cmd << '\n';
-
+										
+					std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
 
 					if (cmd == "quit") {
-						client->write("Bye!\r\n");
 						m_g->RemovePlayer(player);
+						m_g->handleCommand(player, "quit");
+						client->write("Bye!\r\n");
 						break; // out of game loop, will end this thread and close connection
 					}
 
@@ -126,8 +128,7 @@ int main(int argc, const char * argv[])
 
 	// keep client threads here, so we don't need to detach them
 	vector<thread> handlers;
-
-    
+	    
 	// create a server socket
 	ServerSocket server {machiavelli::tcp_port};
 
