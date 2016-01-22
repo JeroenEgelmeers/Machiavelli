@@ -30,15 +30,17 @@ void Game::StartGame()
 {
 	gameStarted = true;
 	m_currentPlayer = currentPlayers.at(0);
-	while (gameStarted) {
-		m_currentPlayer->getClient()->write("Type me something current player.\r\nmachiavelli> ");
-		m_currentPlayer->getClient()->write("machiavelli> You typed: " + m_currentPlayer->getResponse() + "\r\n" + "machiavelli> ");
-		m_currentPlayer->setResponse("");
-	}
 	currentPlayers.at(0)->SetKing(true); // First player will be the King!
-	//message += currentPlayers.at(0)->get_name() + " is the king and may now pick a character card!";
 
-	//NewRound();
+	// Get the building cards and store them in the buildlingcard deck
+	for (const auto &c : buildCards) {
+		deckBuildingCards.AddCard(c);
+	}
+
+	deckBuildingCards.ShuffleDeck(); // Shuffle the deck
+	
+	// Start the first round!
+	NewRound();
 }
 
 void Game::NewRound()
@@ -67,6 +69,17 @@ void Game::NewRound()
 
 	// Shuffle deck so the first will be always random.
 	deckCharacters.ShuffleDeck();
+
+	// Give players start gear
+	for (const auto &p : currentPlayers) {
+		p->AddGold(2);
+		int i = 0;
+		while (i <= 3) {
+			p->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
+			deckBuildingCards.RemoveCard(deckBuildingCards.GetDeck().at(0));
+		}
+		p->getClient()->write("You gained 2 gold and 4 building cards.");
+	}
 	
 	//SetupRound(); // TODO AANZETTEN
 }
@@ -188,6 +201,7 @@ void Game::PlayRound()
 						deckBuildingCards.RemoveCardIndex(0);
 						m_currentPlayer->getClient()->write("You took a: " + deckBuildingCards.GetDeck().at(0)->GetName() + "from the building card deck.");
 						m_currentPlayer->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
+						deckBuildingCards.RemoveCardIndex(0);
 						validInput = true;
 						break;
 					default:
@@ -236,11 +250,15 @@ void Game::PlayRound()
 								validInput		= true;
 							}
 							if (playerInputInner <= i) {
-								m_currentPlayer->PlayCard(i);
-								canBuild--;
+								if (m_currentPlayer->PlayCard(i)) {
+									canBuild--;
+									if (!playerReachedEightPoints && m_currentPlayer->GetBuildingPoints() >= 8) {
+										playerReachedEightPoints = true;
+										m_currentPlayer->SetFirstEightPoints(true);
+									}
+								}
 								validInputInner = true;
-							}
-																				
+							}										
 						}
 						validInput = true;
 						break;

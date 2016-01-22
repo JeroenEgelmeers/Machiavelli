@@ -47,6 +47,7 @@ private:
 	std::vector<std::shared_ptr<BaseCard>> readCSV(const std::string& path, CardType type);
 
 	bool allPlayersReady();
+	bool playerReachedEightPoints = false;
 };
 
 // No clue what the game class should have. First designing before implementation?

@@ -44,7 +44,7 @@ public:
 	bool HasAndCanPlayCharacter(CharacterType c);
 	vector<shared_ptr<BuildingCard>> GetHandCards() { return buildingCardsInHand; }
 
-	void PlayCard(int handCardId);
+	bool PlayCard(int handCardId);
 
 	void PrintHandCards();
 	void PrintTableCards();

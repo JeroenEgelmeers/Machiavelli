@@ -52,7 +52,7 @@ bool Player::HasAndCanPlayCharacter(CharacterType c)
 	return false;
 }
 
-void Player::PlayCard(int handCardId)
+bool Player::PlayCard(int handCardId)
 {
 	if (buildingCardsInHand.size() >= handCardId) {
 		int cost = buildingCardsInHand.at(handCardId)->GetGoldCoins();
@@ -61,11 +61,13 @@ void Player::PlayCard(int handCardId)
 			AddTableCard(buildingCardsInHand.at(handCardId));
 			RemoveHandCard(buildingCardsInHand.at(handCardId));
 			getClient()->write("Congratulations! You build the card!");
+			return true;
 		}
 		else {
 			getClient()->write("You don't have so much gold!");
 		}
 	}
+	return false;
 }
 
 void Player::PrintHandCards() {
