@@ -49,12 +49,8 @@ void Game::NewRound()
 	for (const auto &p : currentPlayers) {
 		if (p->IsKing()) {
 			kingsName = p->get_name();
+			m_currentPlayer = p;
 		}
-	}
-
-	for (const auto &p : currentPlayers) {
-		p->getClient()->write("A new round has started! \r\nmachiavelli> All characters are going back in the deck and they're getting shuffled! \r\nmachiavelli> ");
-		p->getClient()->write("It's up to you king " + kingsName + "!\r\nmachiavelli> ");
 	}
 
 	// Clear current deckCharacters
@@ -82,39 +78,41 @@ void Game::NewRound()
 		}
 		p->getClient()->write("You gained 2 gold and 4 building cards.\r\nmachiavelli> ");
 	}
+
+	for (const auto &p : currentPlayers) {
+		p->getClient()->write("A new round has started! \r\nmachiavelli> All characters are going back in the deck and they're getting shuffled! \r\nmachiavelli> ");
+		p->getClient()->write("It's up to you king " + kingsName + "!\r\nmachiavelli> ");
+	}
 	
 	SetupRound();
 }
 
 void Game::SetupRound()
 {
-	if (m_currentPlayer->IsKing()) {
-		int cardIndex = 0;
-		if (deckCharacters.GetDeck().at(0)->GetCharacterType() == CharacterType::Koning) {
-			cardIndex++;
-		}
-		m_currentPlayer->getClient()->write("The first card: " + deckCharacters.GetDeck().at(cardIndex)->GetName() + " is removed from the deck.\r\nmachiavelli> ");
-		deckCharacters.RemoveCardIndex(cardIndex);
-		deckCharacters.RemoveCardIndex(cardIndex++);
-		// Pick a card!
-		PickCharacterCard(false);
-		// Reset King status (will be re-earned by the CharacterCard: King)
-		m_currentPlayer->SetKing(false);
-		ChangeCurrentPlayer();
-		SetupRound();
-	}else {
-		if (deckCharacters.GetDeckSize() > 0) {
-			PickCharacterCard(true);
-			ChangeCurrentPlayer();
-			if (deckCharacters.GetDeckSize() > 0) {
-				m_currentPlayer->getClient()->write("It's now your turn. Pick a new Character card.");
-				SetupRound();
-			}
-			else {
-				PlayRound();
-			}
-		}
+	int cardIndex = 0;
+	if (deckCharacters.GetDeck().at(0)->GetCharacterType() == CharacterType::Koning) {
+		cardIndex++;
 	}
+	m_currentPlayer->getClient()->write("The first card: " + deckCharacters.GetDeck().at(cardIndex)->GetName() + " is removed from the deck.\r\nmachiavelli> ");
+	deckCharacters.RemoveCardIndex(cardIndex);
+	// Pick a card!
+	PickCharacterCard(true);
+	// Reset King status (will be re-earned by the CharacterCard: King)
+	m_currentPlayer->SetKing(false);
+	ChangeCurrentPlayer();
+
+	// Then all other players (looping)
+	while (deckCharacters.GetDeckSize() > 0) {
+		m_currentPlayer->getClient()->write("It's now your turn. Pick a new Character card.");
+		PickCharacterCard(false);
+		ChangeCurrentPlayer();
+	}
+
+	for (const auto &p : currentPlayers) {
+		p->getClient()->write("The character deck is cleared! Let's start!");
+	}
+	
+	//PlayRound(); // TODO
 }
 
 void Game::PickCharacterCard(bool skipRemove)
@@ -122,27 +120,27 @@ void Game::PickCharacterCard(bool skipRemove)
 	// Pick a card
 	m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left.\r\nmachiavelli> Which do you want?\r\nmachiavelli> ");
 	bool inputTrue = false;
-
 	while (!inputTrue) {
 		string response = m_currentPlayer->getResponse();
 		int cardnr = atoi(response.c_str());
-		if (cardnr >= 1 || cardnr <= deckCharacters.GetDeck().size()) {
+		m_currentPlayer->setResponse("");
+		if (cardnr >= 1 || cardnr <= deckCharacters.GetDeck().size() - 1) {
 			m_currentPlayer->AddCharacterCard(dynamic_pointer_cast<CharacterCard>(deckCharacters.GetDeck().at(cardnr-1)));
 			m_currentPlayer->getClient()->write("You picked "+ deckCharacters.GetDeck().at(cardnr - 1)->GetName() +".\r\nmachiavelli> ");
-
 			deckCharacters.RemoveCardIndex(cardnr-1);
 			inputTrue = true;
 		}	
 	}
 
-	if (skipRemove != false) {
+	if (!skipRemove) {
 		// Remove a card
 		m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left. Which do you want to remove?\r\nmachiavelli> ");
 		inputTrue = false;
 		while (!inputTrue) {
 			string response = m_currentPlayer->getResponse();
 			int cardnr = atoi(response.c_str());
-			if (cardnr >= 1 || cardnr <= deckCharacters.GetDeck().size()) {
+			m_currentPlayer->setResponse("");
+			if (cardnr >= 1 || cardnr <= deckCharacters.GetDeck().size() - 1) {
 				if (deckCharacters.GetDeck().at(cardnr - 1)->GetCharacterType() == CharacterType::Koning) {
 					m_currentPlayer->getClient()->write("You can't remove the king!\r\nmachiavelli> ");
 				}
@@ -159,15 +157,18 @@ void Game::PickCharacterCard(bool skipRemove)
 void Game::ChangeCurrentPlayer()
 {
 	bool playerFound = false;
+	bool playerChanged = false;
+	int i = 0;
 	for (const auto &p : currentPlayers) {
 		if (p->getId() == m_currentPlayer->getId()) {
 			playerFound = true;
 		}
 		else if (playerFound) {
 			m_currentPlayer = p;
+			playerChanged = true;
 		}
 	}
-	if (!playerFound) { m_currentPlayer = currentPlayers.at(0); }
+	if (!playerChanged) { m_currentPlayer = currentPlayers.at(0); }
 }
 
 void Game::PlayRound()
@@ -185,7 +186,7 @@ void Game::PlayRound()
 	// Step 1: Loop through characters
 	while (currentCharacter < 9) {
 		for (const auto &p : currentPlayers) {
-			p->getClient()->write(kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)));
+			p->getClient()->write("King " + kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)));
 		}
 		bool charFound = false;
 		for (const auto &p : currentPlayers) {
