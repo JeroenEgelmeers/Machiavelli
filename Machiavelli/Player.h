@@ -41,6 +41,7 @@ public:
 	void AddTableCard(shared_ptr<BuildingCard> card)		{ buildingCardsOnTable.push_back(card); }
 	void RemoveHandCard(shared_ptr<BuildingCard> card);
 	void RemoveTableCard(shared_ptr<BuildingCard> card);
+	bool HasAndCanPlayCharacter(CharacterType c);
 
 	void PlayCard(shared_ptr<BaseCard> card);
 
@@ -50,6 +51,7 @@ public:
 
 	void AddCharacterCard(shared_ptr<CharacterCard> card)	{ characterCards.push_back(card); }
 	void RemoveCharacterCard(shared_ptr<CharacterCard> card) { characterCards.erase(find(characterCards.begin(), characterCards.end(), card)); }
+	shared_ptr<CharacterCard> GetCharacterCard(string name);
 
 	bool IsKing()							{ return mIsKing; }
 	void SetKing(bool king);

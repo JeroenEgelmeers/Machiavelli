@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <memory>
 
 #include "CardFactory.h"
 
@@ -30,11 +31,23 @@ void Game::StartGame()
 	gameStarted = true;
 	currentPlayers.at(0)->SetKing(true); // First player will be the King!
 	m_currentPlayer = currentPlayers.at(0);
-	//message += currentPlayers.at(0)->get_name() + " is the king and may now pick a character card!";
+	NewRound();
 }
 
 void Game::NewRound()
 {
+	string kingsName = "";
+	for (const auto &p : currentPlayers) {
+		if (p->IsKing()) {
+			kingsName = p->get_name();
+		}
+	}
+
+	for (const auto &p : currentPlayers) {
+		p->getClient()->write("A new round has started! All characters are going back in the deck and they're getting shuffled!");
+		p->getClient()->write("It's up to you king " + kingsName + "!\r\n");
+	}
+
 	// Clear current deckCharacters
 	if (deckCharacters.GetDeckSize() > 0) {
 		deckCharacters.ClearDeck();
@@ -48,7 +61,7 @@ void Game::NewRound()
 	// Shuffle deck so the first will be always random.
 	deckCharacters.ShuffleDeck();
 	
-	SetupRound();
+	//SetupRound(); // TODO AANZETTEN
 }
 
 void Game::SetupRound()
@@ -65,12 +78,12 @@ void Game::SetupRound()
 		PickCharacterCard();
 		// Reset King status (will be re-earned by the CharacterCard: King)
 		m_currentPlayer->SetKing(false);
-		// TODO Change current player to second.
+		ChangeCurrentPlayer();
 		SetupRound();
 	}else {
 		if (deckCharacters.GetDeckSize() > 0) {
 			PickCharacterCard();
-			// TODO change current player to second.
+			ChangeCurrentPlayer();
 			if (deckCharacters.GetDeckSize() > 0) {
 				m_currentPlayer->getClient()->write("It's now your turn. Pick a new Character card.");
 				SetupRound();
@@ -84,11 +97,13 @@ void Game::SetupRound()
 
 void Game::PickCharacterCard()
 {
+	// Pick a card
 	m_currentPlayer->getClient()->write("There are "+ std::to_string(deckCharacters.GetDeckSize()) + " characters left. Which do you want?");
 	int pICardIndex = 0; // TODO Player gives index through console.
 	deckCharacters.RemoveCardIndex(pICardIndex);
+	
+	// Remove a card
 	m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left. Which do you want to remove?");
-	pICardIndex = 0; // TODO Player gives index through console.
 	bool inputTrue = false;
 	while(!inputTrue) {
 		pICardIndex = 0; // TODO Player gives index through console.
@@ -100,9 +115,111 @@ void Game::PickCharacterCard()
 	deckCharacters.RemoveCardIndex(pICardIndex);
 }
 
+void Game::ChangeCurrentPlayer()
+{
+	bool playerFound = false;
+	for (const auto &p : currentPlayers) {
+		if (p->getId() == m_currentPlayer->getId()) {
+			playerFound = true;
+		}
+		else if (playerFound) {
+			m_currentPlayer = p;
+		}
+	}
+	if (!playerFound) { m_currentPlayer = currentPlayers.at(0); }
+}
+
 void Game::PlayRound()
 {
 	// TODO playRound implementation.
+	int currentCharacter = 1;
+
+	// Get the kingsname for some nice information on screen.
+	string kingName = "";
+	for (const auto &p : currentPlayers) {
+		if (p->IsKing()) {
+			kingName = p->get_name();
+		}
+	}
+
+	// Step 1: Loop through characters
+	while (currentCharacter < 9) {
+		for (const auto &p : currentPlayers) {
+			p->getClient()->write(kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)));
+		}
+		bool charFound = false;
+		for (const auto &p : currentPlayers) {
+			if (p->HasAndCanPlayCharacter(CharacterType(currentCharacter))) {
+				p->getClient()->write("You've got this card! It's now your turn!");
+				m_currentPlayer = p;
+				charFound = true;
+			}
+		}
+		if (charFound) {
+			// Inform other players
+			for (const auto &p : currentPlayers) {
+				if (p->getId() != m_currentPlayer->getId()) {
+					p->getClient()->write(m_currentPlayer->get_name() + " has the " + CharacterTypeToString(CharacterType(currentCharacter)));
+				}
+			}
+			// Give player possiblity
+			bool validInput = false;
+			string message = "";
+			while (!validInput) {
+				message += "What would you like to do? \r\nmachiavelli> ";
+				message += "[1] Get 2 gold coins. \r\nmachiavelli> ";
+				message += "[2] Get 2 building cards. \r\nmachiavelli> ";
+				m_currentPlayer->getClient()->write(message);
+
+				int playerInput = 0; // TODO player input
+				switch (playerInput) {
+					case 1:
+						m_currentPlayer->AddGold(2);
+						m_currentPlayer->getClient()->write("You took 2 gold coins.");
+						validInput = true;
+						break;
+					case 2:
+						deckBuildingCards.RemoveCardIndex(0);
+						m_currentPlayer->getClient()->write("You took a: " + deckBuildingCards.GetDeck().at(0)->GetName() + "from the building card deck.");
+						m_currentPlayer->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
+						validInput = true;
+						break;
+					default:
+						break;
+				}
+			}
+
+			validInput = false;
+			while (!validInput) {
+				int canBuild = 1;
+				if (currentCharacter == 7) {
+					canBuild = 3;
+				}
+				message += "You can build " + std::to_string(canBuild) + " buildings. Would you like to build one? \r\nmachiavelli> ";
+				message += "[1] Yes. \r\nmachiavelli> ";
+				message += "[2] No. \r\nmachiavelli> ";
+				m_currentPlayer->getClient()->write(message);
+				int playerInput = 0; // TODO player input;
+				switch (playerInput) {
+					case 1:
+						// TODO Pick 1-3 card(s) to build
+						validInput = true;
+						break;
+					case 2:
+						validInput = true;
+						break;
+					default:
+						break;
+				}
+			}
+
+			// Execute card
+			m_currentPlayer->GetCharacterCard(CharacterTypeToString(CharacterType(currentCharacter)))->Execute(*this); // Pointer before the this else it'll give an error!
+		}
+		// Go to next character
+		currentCharacter++;
+	}
+
 	VictoryCheck();
 }
 
@@ -247,6 +364,7 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 				for (const auto &p : currentPlayers) {
 					p->getClient()->write(message);
 				}
+				StartGame();
 			}
 		}
 		else if (command == "not ready") {
