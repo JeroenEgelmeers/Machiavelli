@@ -36,6 +36,22 @@ void Player::RemoveTableCard(shared_ptr<BuildingCard> card)
 	}
 }
 
+bool Player::HasAndCanPlayCharacter(CharacterType c)
+{
+	for (const auto &ch : characterCards) {
+		if (ch->GetCharacterType() == c) {
+			if (ch->GetIsAlive()) {
+				return true;
+			}
+			else {
+				client->write("You've got this card but you won't tell them as it's killed by the murderer!");
+				return false;
+			}
+		}
+	}
+	return false;
+}
+
 void Player::PlayCard(shared_ptr<BaseCard> card)
 {
 	//card->Execute(game); // TODO :: Should be a game var in Player
@@ -63,6 +79,16 @@ void Player::PrintCharacterCards() {
 	//	// Write this line to client.
 	//	// characterCards[i].GetDescription();
 	//}
+}
+
+shared_ptr<CharacterCard> Player::GetCharacterCard(string name)
+{
+	for (const auto &c : characterCards) {
+		if (c->GetName() == name) {
+			return c;
+		}
+	}
+	return nullptr;
 }
 
 void Player::SetKing(bool king)

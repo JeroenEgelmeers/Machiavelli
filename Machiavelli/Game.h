@@ -37,11 +37,12 @@ private:
 	void NewRound();
 	void SetupRound();
 		void PickCharacterCard();
+		void ChangeCurrentPlayer();
 	void PlayRound();
 	void VictoryCheck();
 
 	CardDeck deckCharacters;
-	CardDeck deckBuildlingCharacters;
+	CardDeck deckBuildingCards;
 
 	std::vector<std::shared_ptr<BaseCard>> readCSV(const std::string& path, CardType type);
 
