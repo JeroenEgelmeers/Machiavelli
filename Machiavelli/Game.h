@@ -36,7 +36,7 @@ private:
 
 	void NewRound();
 	void SetupRound();
-		void PickCharacterCard();
+		void PickCharacterCard(bool skipRemove);
 		void ChangeCurrentPlayer();
 	void PlayRound();
 	void VictoryCheck();
