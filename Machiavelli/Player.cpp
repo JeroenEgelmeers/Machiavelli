@@ -131,3 +131,10 @@ void Player::CalculatePoints() {
 	if (buildingCardsOnTable.size() >= 8 && !FirstEightPoints()) { mPoints += 2; }
 	
 }
+
+std::string Player::getResponse() {
+	while (m_response == ""){
+
+	}
+	return m_response;
+}

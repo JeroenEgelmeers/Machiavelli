@@ -29,9 +29,13 @@ void Game::loadResources() {
 void Game::StartGame()
 {
 	gameStarted = true;
-	while (gameStarted) {};
-	currentPlayers.at(0)->SetKing(true); // First player will be the King!
 	m_currentPlayer = currentPlayers.at(0);
+	while (gameStarted) {
+		m_currentPlayer->getClient()->write("Type me something current player.\r\nmachiavelli> ");
+		m_currentPlayer->getClient()->write("machiavelli> You typed: " + m_currentPlayer->getResponse() + "\r\n" + "machiavelli> ");
+		m_currentPlayer->setResponse("");
+	}
+	currentPlayers.at(0)->SetKing(true); // First player will be the King!
 	//message += currentPlayers.at(0)->get_name() + " is the king and may now pick a character card!";
 }
 
@@ -295,8 +299,13 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 			}
 		}
 		else {
-			message = "machiavelli> Did not understand command " + command + " please repeat. \r\n" + "machiavelli> ";
-			player->getClient()->write(message);
+			if (player == m_currentPlayer) {
+				player->setResponse(command);
+			}
+			else {
+				message = "machiavelli> It is not your turn, please wait. \r\nmachiavelli> ";
+				player->getClient()->write(message);
+			}
 		}
 	}
 }

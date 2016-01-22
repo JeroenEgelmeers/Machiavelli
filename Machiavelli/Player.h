@@ -68,6 +68,9 @@ public:
 
 	int getId() { return mPlayerID;  }
 
+	std::string getResponse();
+	void setResponse(std::string response) { m_response = response; }
+
 	shared_ptr<CharacterCard> operator [](CharacterType type) {
 		for (size_t i = 0; i < characterCards.size(); i++)
 		{
@@ -82,6 +85,7 @@ public:
 
 private:
 	// Player information
+	std::string m_response;
 	std::string name;
 	const shared_ptr<Game> game;
 	const shared_ptr<Socket> client;
