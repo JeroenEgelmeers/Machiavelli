@@ -52,9 +52,20 @@ bool Player::HasAndCanPlayCharacter(CharacterType c)
 	return false;
 }
 
-void Player::PlayCard(shared_ptr<BaseCard> card)
+void Player::PlayCard(int handCardId)
 {
-	//card->Execute(game); // TODO :: Should be a game var in Player
+	if (buildingCardsInHand.size() >= handCardId) {
+		int cost = buildingCardsInHand.at(handCardId)->GetGoldCoins();
+		if (cost <= mGold) {
+			RemoveGold(cost);
+			AddTableCard(buildingCardsInHand.at(handCardId));
+			RemoveHandCard(buildingCardsInHand.at(handCardId));
+			getClient()->write("Congratulations! You build the card!");
+		}
+		else {
+			getClient()->write("You don't have so much gold!");
+		}
+	}
 }
 
 void Player::PrintHandCards() {

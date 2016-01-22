@@ -42,8 +42,9 @@ public:
 	void RemoveHandCard(shared_ptr<BuildingCard> card);
 	void RemoveTableCard(shared_ptr<BuildingCard> card);
 	bool HasAndCanPlayCharacter(CharacterType c);
+	vector<shared_ptr<BuildingCard>> GetHandCards() { return buildingCardsInHand; }
 
-	void PlayCard(shared_ptr<BaseCard> card);
+	void PlayCard(int handCardId);
 
 	void PrintHandCards();
 	void PrintTableCards();

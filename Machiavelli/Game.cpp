@@ -132,7 +132,6 @@ void Game::ChangeCurrentPlayer()
 
 void Game::PlayRound()
 {
-	// TODO playRound implementation.
 	int currentCharacter = 1;
 
 	// Get the kingsname for some nice information on screen.
@@ -190,20 +189,53 @@ void Game::PlayRound()
 				}
 			}
 
+			int canBuild = 1;
+			if (currentCharacter == 7) {
+				canBuild = 3;
+			}
 			validInput = false;
 			while (!validInput) {
-				int canBuild = 1;
-				if (currentCharacter == 7) {
-					canBuild = 3;
+				int playerInput;
+				if (canBuild > 0) {
+					message += "You can build " + std::to_string(canBuild) + " buildings. Would you like to build one? \r\nmachiavelli> ";
+					message += "[1] Yes. \r\nmachiavelli> ";
+					message += "[2] No. \r\nmachiavelli> ";
+					m_currentPlayer->getClient()->write(message);
+					playerInput = 0; // TODO player input;
 				}
-				message += "You can build " + std::to_string(canBuild) + " buildings. Would you like to build one? \r\nmachiavelli> ";
-				message += "[1] Yes. \r\nmachiavelli> ";
-				message += "[2] No. \r\nmachiavelli> ";
-				m_currentPlayer->getClient()->write(message);
-				int playerInput = 0; // TODO player input;
+				else {
+					validInput = true;
+					break;
+				}
+
+				int  playerBuild = 0;
+				bool validInputInner = false;
 				switch (playerInput) {
+
 					case 1:
-						// TODO Pick 1-3 card(s) to build
+						while (!validInputInner && playerBuild <= canBuild) {
+							message = "";
+							message += "Which card would you like to build?\r\nmachiavelli>";
+							message += "[0] I don't want to play a card.\r\nmachiavelli>";
+							int i = 1;
+							for (const auto &c : m_currentPlayer->GetHandCards()) {
+								message += "["+std::to_string(i)+"] " + c->GetName() + " cost: " + std::to_string(c->GetGoldCoins());
+								i++;
+							}
+							m_currentPlayer->getClient()->write(message);
+
+							int playerInputInner = -1;
+							if (playerInputInner == 0) {
+								validInputInner = true;
+								validInput		= true;
+							}
+							if (playerInputInner <= i) {
+								m_currentPlayer->PlayCard(i);
+								canBuild--;
+								validInputInner = true;
+							}
+																				
+						}
 						validInput = true;
 						break;
 					case 2:
