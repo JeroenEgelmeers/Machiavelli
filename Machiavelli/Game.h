@@ -21,6 +21,7 @@ public:
 	void handleCommand(shared_ptr<Player> player, std::string command);
 
 	bool isGameStarted() { return gameStarted; };
+	void StartGame();
 private:
 	bool gameStarted;
 
@@ -32,7 +33,6 @@ private:
 
 	void loadResources();
 
-	void StartGame();
 	void NewRound();
 	void SetupRound();
 	void PlayRound();
