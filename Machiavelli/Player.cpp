@@ -183,5 +183,8 @@ std::string Player::getResponse() {
 	while (m_response == ""){
 
 	}
-	return m_response;
+	std::string output = m_response;
+	setResponse("");
+
+	return output;
 }

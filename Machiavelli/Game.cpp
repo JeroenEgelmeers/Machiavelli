@@ -123,13 +123,15 @@ void Game::PickCharacterCard(bool skipRemove)
 	while (!inputTrue) {
 		string response = m_currentPlayer->getResponse();
 		int cardnr = atoi(response.c_str());
-		m_currentPlayer->setResponse("");
-		if (cardnr >= 1 || cardnr <= deckCharacters.GetDeck().size() - 1) {
+		if (cardnr >= 1 && cardnr <= deckCharacters.GetDeck().size()) {
 			m_currentPlayer->AddCharacterCard(dynamic_pointer_cast<CharacterCard>(deckCharacters.GetDeck().at(cardnr-1)));
 			m_currentPlayer->getClient()->write("You picked "+ deckCharacters.GetDeck().at(cardnr - 1)->GetName() +".\r\nmachiavelli> ");
 			deckCharacters.RemoveCardIndex(cardnr-1);
 			inputTrue = true;
-		}	
+		}
+		else {
+			m_currentPlayer->getClient()->write("Invalid input. Please try again.\r\nmachiavelli> ");
+		}
 	}
 
 	if (!skipRemove) {
@@ -139,8 +141,7 @@ void Game::PickCharacterCard(bool skipRemove)
 		while (!inputTrue) {
 			string response = m_currentPlayer->getResponse();
 			int cardnr = atoi(response.c_str());
-			m_currentPlayer->setResponse("");
-			if (cardnr >= 1 || cardnr <= deckCharacters.GetDeck().size() - 1) {
+			if (cardnr >= 1 && cardnr <= deckCharacters.GetDeck().size()) {
 				if (deckCharacters.GetDeck().at(cardnr - 1)->GetCharacterType() == CharacterType::Koning) {
 					m_currentPlayer->getClient()->write("You can't remove the king!\r\nmachiavelli> ");
 				}
@@ -149,6 +150,9 @@ void Game::PickCharacterCard(bool skipRemove)
 					m_currentPlayer->getClient()->write("Card removed.\r\nmachiavelli> ");
 					inputTrue = true;
 				}
+			}
+			else {
+				m_currentPlayer->getClient()->write("Invalid input. Please try again.\r\nmachiavelli> ");
 			}
 		}
 	}
