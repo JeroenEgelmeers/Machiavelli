@@ -106,7 +106,15 @@ shared_ptr<CharacterCard> Player::GetCharacterCard(string name)
 
 void Player::SetKing(bool king)
 {
-	mIsKing = true;
+	mIsKing = king;
+	if (!king) {
+		SetWasKing(true);
+	}
+}
+
+void Player::SetWasKing(bool king)
+{
+	mWasKing = king;
 }
 
 int Player::GetBuildingPoints()

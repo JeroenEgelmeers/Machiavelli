@@ -56,6 +56,8 @@ public:
 
 	bool IsKing()							{ return mIsKing; }
 	void SetKing(bool king);
+	void SetWasKing(bool king);
+	bool WasKing() { return mWasKing;  }
 
 	bool FirstEightPoints()					{ return mFirstEightPoints; }
 	void SetFirstEightPoints(bool first)	{ mFirstEightPoints = first; }
@@ -100,6 +102,7 @@ private:
 
 	// Round information
 	bool	mIsKing;			// Is the player the king?
+	bool	mWasKing;
 
 	// Game information
 	int		mGold		= 0;	// Players gold: start on 0.
