@@ -19,8 +19,8 @@ Game::~Game()
 }
 
 void Game::loadResources() {	
-	buildCards = readCSV("../Resources/Bouwkaarten.csv", CardType::bouw);
-	classCards = readCSV("../Resources/Karakterkaarten.csv", CardType::karakter);
+	buildCards		= readCSV("../Resources/Bouwkaarten.csv", CardType::bouw);
+	characterCards	= readCSV("../Resources/Karakterkaarten.csv", CardType::karakter);
 	
 	currentPlayers = std::vector<std::shared_ptr<Player>>();
 	cerr << "Resources initialized." << '\n';
@@ -37,19 +37,69 @@ void Game::StartGame()
 
 void Game::NewRound()
 {
-	// TODO Reset deck (Characters).
+	// Clear current deckCharacters
+	if (deckCharacters.GetDeckSize() > 0) {
+		deckCharacters.ClearDeck();
+	}
+
+	// Set up new deck
+	for (const auto &c : characterCards) {
+		deckCharacters.AddCard(c);
+	}
+
+	// Shuffle deck so the first will be always random.
+	deckCharacters.ShuffleDeck();
+	
 	SetupRound();
 }
 
 void Game::SetupRound()
 {
 	// TODO SetupRound implementation.
-
-	// Reset King status (will be re-earned by the CharacterCard: King)
-	for (const auto &p : currentPlayers) {
-		p->SetKing(false);
+	if (m_currentPlayer->IsKing()) {
+		int cardIndex = 0;
+		if (deckCharacters.GetDeck().at(0)->GetCharacterType() == CharacterType::Koning) {
+			cardIndex++;
+		}
+		m_currentPlayer->getClient()->write("The first card: " + deckCharacters.GetDeck().at(0)->GetName() + " is removed from the deck.");
+		deckCharacters.RemoveCardIndex(cardIndex);
+		// Pick a card!
+		PickCharacterCard();
+		// Reset King status (will be re-earned by the CharacterCard: King)
+		m_currentPlayer->SetKing(false);
+		// TODO Change current player to second.
+		SetupRound();
+	}else {
+		if (deckCharacters.GetDeckSize() > 0) {
+			PickCharacterCard();
+			// TODO change current player to second.
+			if (deckCharacters.GetDeckSize() > 0) {
+				m_currentPlayer->getClient()->write("It's now your turn. Pick a new Character card.");
+				SetupRound();
+			}
+			else {
+				PlayRound();
+			}
+		}
 	}
-	PlayRound();
+}
+
+void Game::PickCharacterCard()
+{
+	m_currentPlayer->getClient()->write("There are "+ std::to_string(deckCharacters.GetDeckSize()) + " characters left. Which do you want?");
+	int pICardIndex = 0; // TODO Player gives index through console.
+	deckCharacters.RemoveCardIndex(pICardIndex);
+	m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left. Which do you want to remove?");
+	pICardIndex = 0; // TODO Player gives index through console.
+	bool inputTrue = false;
+	while(!inputTrue) {
+		pICardIndex = 0; // TODO Player gives index through console.
+		if (deckCharacters.GetDeck().at(0)->GetCharacterType() == CharacterType::Koning) {
+			m_currentPlayer->getClient()->write("You can't remove the king!");
+		}
+		else { inputTrue = true; }
+	}
+	deckCharacters.RemoveCardIndex(pICardIndex);
 }
 
 void Game::PlayRound()

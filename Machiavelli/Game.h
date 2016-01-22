@@ -6,6 +6,7 @@
 
 #include "BaseCard.h"
 #include "Player.h"
+#include "CardDeck.h"
 
 class Game
 {
@@ -29,14 +30,18 @@ private:
 	std::shared_ptr<Player> m_currentPlayer;
 
 	std::vector<std::shared_ptr<BaseCard>> buildCards;
-	std::vector<std::shared_ptr<BaseCard>> classCards;
+	std::vector<std::shared_ptr<BaseCard>> characterCards;
 
 	void loadResources();
 
 	void NewRound();
 	void SetupRound();
+		void PickCharacterCard();
 	void PlayRound();
 	void VictoryCheck();
+
+	CardDeck deckCharacters;
+	CardDeck deckBuildlingCharacters;
 
 	std::vector<std::shared_ptr<BaseCard>> readCSV(const std::string& path, CardType type);
 
