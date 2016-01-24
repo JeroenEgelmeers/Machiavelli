@@ -51,6 +51,10 @@ void Game::NewRound()
 			kingsName = p->get_name();
 			m_currentPlayer = p;
 		}
+		// Set this as we need this later.
+		if (p->WasKing()) {
+			p->SetWasKing(false);
+		}
 	}
 
 	// Clear current deckCharacters
@@ -115,10 +119,22 @@ void Game::SetupRound()
 	//PlayRound(); // TODO
 }
 
+void Game::ShowCharacterCardsLeft() {
+	string message = "";
+	int i = 1;
+	for (const auto &c : deckCharacters.GetDeck()) {
+		message += "[" + std::to_string(i) + "]" + c->GetName() + "\r\nmachiavelli> ";
+		i++;
+	}
+
+	m_currentPlayer->getClient()->write(message + "\r\nmachiavelli> ");
+}
+
 void Game::PickCharacterCard(bool skipRemove)
 {
 	// Pick a card
 	m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left.\r\nmachiavelli> Which do you want?\r\nmachiavelli> ");
+	ShowCharacterCardsLeft();
 	bool inputTrue = false;
 	while (!inputTrue) {
 		string response = m_currentPlayer->getResponse();
@@ -137,6 +153,7 @@ void Game::PickCharacterCard(bool skipRemove)
 	if (!skipRemove) {
 		// Remove a card
 		m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left. Which do you want to remove?\r\nmachiavelli> ");
+		ShowCharacterCardsLeft();
 		inputTrue = false;
 		while (!inputTrue) {
 			string response = m_currentPlayer->getResponse();
@@ -182,7 +199,7 @@ void Game::PlayRound()
 	// Get the kingsname for some nice information on screen.
 	string kingName = "";
 	for (const auto &p : currentPlayers) {
-		if (p->IsKing()) {
+		if (p->WasKing()) {
 			kingName = p->get_name();
 		}
 	}
@@ -245,6 +262,7 @@ void Game::PlayRound()
 				}
 			}
 
+			// This is because bouwmeester can build 3 buildings!
 			int canBuild = 1;
 			if (currentCharacter == 7) {
 				canBuild = 3;
