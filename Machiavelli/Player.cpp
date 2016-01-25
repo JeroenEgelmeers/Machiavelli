@@ -99,14 +99,13 @@ void Player::PrintCharacterCards() {
 	//}
 }
 
-shared_ptr<CharacterCard> Player::GetCharacterCard(string name)
+void Player::ExecuteCharacterCard(int cardID, Game game)
 {
 	for (const auto &c : characterCards) {
-		if (c->GetName() == name) {
-			return c;
+		if (c->GetCharacterType() == CharacterType(cardID)) {
+			c->Execute(game);
 		}
 	}
-	return nullptr;
 }
 
 void Player::SetKing(bool king)

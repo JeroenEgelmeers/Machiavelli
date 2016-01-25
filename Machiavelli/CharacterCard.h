@@ -41,6 +41,6 @@ public:
 	CardColor		GetColor() { return mColor; }
 	CharacterType   GetCharacterType() { return mCharacterType;  }
 
-	void	Execute(Game game); // Should handle everything that the player gets when playing this card.
+	virtual void	Execute(Game game) = 0; // Should handle everything that the player gets when playing this card.
 	void	Print(); // Should handle the print events of card.
 };

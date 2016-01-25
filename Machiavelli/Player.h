@@ -56,7 +56,7 @@ public:
 	void AddCharacterCard(shared_ptr<CharacterCard> card)	{ characterCards.push_back(card); }
 	void RemoveCharacterCard(shared_ptr<CharacterCard> card) { characterCards.erase(find(characterCards.begin(), characterCards.end(), card)); }
 	void ClearCharacterCards() { characterCards.clear(); }
-	shared_ptr<CharacterCard> GetCharacterCard(string name);
+	void ExecuteCharacterCard(int cardID, Game game);
 
 	bool IsKing()							{ return mIsKing; }
 	void SetKing(bool king);

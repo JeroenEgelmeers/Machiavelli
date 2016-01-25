@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Magier::Magier() : CharacterCard("Tovenaar", CardColor::white, CharacterType::Magiër){}
+Magier::Magier() : CharacterCard("Tovenaar", CardColor::white, CharacterType::Magier){}
 Magier::~Magier(){}
 
 void Magier::Execute(Game game)

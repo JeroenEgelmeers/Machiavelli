@@ -8,5 +8,4 @@ CharacterCard::CharacterCard(std::string name, CardColor color, CharacterType ty
 
 CharacterCard::~CharacterCard() {}
 
-void CharacterCard::Execute(Game game) {} // TODO
 void CharacterCard::Print() {} // TODO

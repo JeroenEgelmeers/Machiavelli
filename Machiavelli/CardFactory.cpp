@@ -30,7 +30,7 @@ CardFactory::CardFactory()
 	cardTypeResolver.insert(make_pair("NONE", CharacterType::NONE));
 	cardTypeResolver.insert(make_pair("Moordenaar", CharacterType::Moordenaar));
 	cardTypeResolver.insert(make_pair("Dief", CharacterType::Dief));
-	cardTypeResolver.insert(make_pair("Magiër", CharacterType::Magiër));
+	cardTypeResolver.insert(make_pair("Magier", CharacterType::Magier));
 	cardTypeResolver.insert(make_pair("Koning", CharacterType::Koning));
 	cardTypeResolver.insert(make_pair("Prediker", CharacterType::Prediker));
 	cardTypeResolver.insert(make_pair("Koopman", CharacterType::Koopman));
@@ -49,21 +49,21 @@ shared_ptr<BuildingCard> CardFactory::CreateInstance(string name, int goldCoins,
 shared_ptr<CharacterCard> CardFactory::CreateInstance(string type) {
 	switch (cardTypeResolver.find(type)->second) {
 	case CharacterType::Moordenaar:
-		return make_shared<CharacterCard>(Moordenaar());
+		return make_shared<Moordenaar>(Moordenaar());
 	case CharacterType::Dief:
-		return make_shared<CharacterCard>(Dief());
-	case CharacterType::Magiër:
-		return make_shared<CharacterCard>(Magier());
+		return make_shared<Dief>(Dief());
+	case CharacterType::Magier:
+		return make_shared<Magier>(Magier());
 	case CharacterType::Koning:
-		return make_shared<CharacterCard>(Koning());
+		return make_shared<Koning>(Koning());
 	case CharacterType::Prediker:
-		return make_shared<CharacterCard>(Prediker());
+		return make_shared<Prediker>(Prediker());
 	case CharacterType::Koopman:
-		return make_shared<CharacterCard>(Koopman());
+		return make_shared<Koopman>(Koopman());
 	case CharacterType::Bouwmeester:
-		return make_shared<CharacterCard>(Bouwmeester());
+		return make_shared<Bouwmeester>(Bouwmeester());
 	case CharacterType::Condottiere:
-		return make_shared<CharacterCard>(Condottiere());
+		return make_shared<Condottiere>(Condottiere());
 	}
 	
 	return nullptr;

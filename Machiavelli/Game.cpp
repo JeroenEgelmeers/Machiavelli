@@ -359,7 +359,7 @@ void Game::PlayRound()
 			}
 
 			// Execute card
-			m_currentPlayer->GetCharacterCard(CharacterTypeToString(CharacterType(currentCharacter)))->Execute(*this); // Pointer before the this else it'll give an error!
+			m_currentPlayer->ExecuteCharacterCard(currentCharacter, *this); // Pointer before the this else it'll give an error!
 		}
 		// Go to next character
 		currentCharacter++;

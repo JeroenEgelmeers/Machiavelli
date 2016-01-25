@@ -20,6 +20,7 @@ public:
 
 	std::shared_ptr<Player> getCurrentPlayer();
 	std::vector<std::shared_ptr<Player>> getCurrentPlayers() { return currentPlayers; }
+	CardDeck<BuildingCard> GetBuildlingCardDeck() { return deckBuildingCards; }
 
 	void handleCommand(shared_ptr<Player> player, std::string command);
 
