@@ -30,7 +30,7 @@ CardFactory::CardFactory()
 	cardTypeResolver.insert(make_pair("NONE", CharacterType::NONE));
 	cardTypeResolver.insert(make_pair("Moordenaar", CharacterType::Moordenaar));
 	cardTypeResolver.insert(make_pair("Dief", CharacterType::Dief));
-	cardTypeResolver.insert(make_pair("Magier", CharacterType::Magier));
+	cardTypeResolver.insert(make_pair("Magiër", CharacterType::Magiër));
 	cardTypeResolver.insert(make_pair("Koning", CharacterType::Koning));
 	cardTypeResolver.insert(make_pair("Prediker", CharacterType::Prediker));
 	cardTypeResolver.insert(make_pair("Koopman", CharacterType::Koopman));
@@ -52,7 +52,7 @@ shared_ptr<CharacterCard> CardFactory::CreateInstance(string type) {
 		return make_shared<Moordenaar>(Moordenaar());
 	case CharacterType::Dief:
 		return make_shared<Dief>(Dief());
-	case CharacterType::Magier:
+	case CharacterType::Magiër:
 		return make_shared<Magier>(Magier());
 	case CharacterType::Koning:
 		return make_shared<Koning>(Koning());
