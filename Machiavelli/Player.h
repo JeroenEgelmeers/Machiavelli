@@ -44,9 +44,7 @@ public:
 	bool HasAndCanPlayCharacter(CharacterType c);
 	vector<shared_ptr<BuildingCard>> GetHandCards() { return buildingCardsInHand; }
 	void ClearHandCards() { buildingCardsInHand.clear(); }
-	size_t BuildingCardsOnTable() { 
-		return buildingCardsOnTable.size(); 
-	}
+	size_t BuildingCardsOnTable() { return buildingCardsOnTable.size(); }
 
 	bool PlayCard(int handCardId);
 
@@ -56,6 +54,7 @@ public:
 
 	void AddCharacterCard(shared_ptr<CharacterCard> card)	{ characterCards.push_back(card); }
 	void RemoveCharacterCard(shared_ptr<CharacterCard> card) { characterCards.erase(find(characterCards.begin(), characterCards.end(), card)); }
+	vector<shared_ptr<CharacterCard>> GetCharacterCards() { return characterCards; }
 	void ClearCharacterCards() { characterCards.clear(); }
 	void ExecuteCharacterCard(int cardID, Game game);
 

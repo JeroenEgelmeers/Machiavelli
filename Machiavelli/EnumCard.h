@@ -20,3 +20,19 @@ inline const char* CharacterTypeToString(CharacterType c)
 		default: return "NONE";
 	}
 }
+
+inline const char* CharacterTypeIDToString(int c)
+{
+	switch (c)
+	{
+		case 1:		return "Moordenaar";
+		case 2:		return "Dief";
+		case 3:		return "Tovenaar";
+		case 4:		return "Koning";
+		case 5:		return "Prediker";
+		case 6:		return "Koopman";
+		case 7:		return "Bouwmeester";
+		case 8:		return "Condottiere";
+		default:	return "NONE";
+	}
+}
