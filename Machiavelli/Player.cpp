@@ -43,7 +43,7 @@ bool Player::HasAndCanPlayCharacter(CharacterType c)
 				return true;
 			}
 			else {
-				client->write("You've got this card but you won't tell them as it's killed by the murderer!");
+				client->write("You've got this card but you won't tell them as it's killed by the murderer! \r\nmachiavelli>");
 				return false;
 			}
 		}
@@ -59,12 +59,18 @@ bool Player::PlayCard(int handCardId)
 			RemoveGold(cost);
 			AddTableCard(buildingCardsInHand.at(handCardId));
 			RemoveHandCard(buildingCardsInHand.at(handCardId));
-			getClient()->write("Congratulations! You build the card!");
+			getClient()->write("Congratulations! You build the card!  \r\nmachiavelli>");
+			getClient()->write("You've got " + std::to_string(mGold) + " gold left!  \r\nmachiavelli>");
 			return true;
 		}
 		else {
-			getClient()->write("You don't have so much gold!");
+			getClient()->write("You don't have so much gold!  \r\nmachiavelli>");
+			return false;
 		}
+	}
+	else {
+		getClient()->write("You don't have this card!  \r\nmachiavelli>");
+		return false;
 	}
 	return false;
 }

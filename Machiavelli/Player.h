@@ -38,10 +38,14 @@ public:
 
 	void AddHandCard(shared_ptr<BuildingCard> card)			{ buildingCardsInHand.push_back(card); }
 	void AddTableCard(shared_ptr<BuildingCard> card)		{ buildingCardsOnTable.push_back(card); }
+	
 	void RemoveHandCard(shared_ptr<BuildingCard> card);
 	void RemoveTableCard(shared_ptr<BuildingCard> card);
 	bool HasAndCanPlayCharacter(CharacterType c);
 	vector<shared_ptr<BuildingCard>> GetHandCards() { return buildingCardsInHand; }
+	int BuildingCardsOnTable() { 
+		return buildingCardsOnTable.size(); 
+	}
 
 	bool PlayCard(int handCardId);
 
@@ -51,6 +55,7 @@ public:
 
 	void AddCharacterCard(shared_ptr<CharacterCard> card)	{ characterCards.push_back(card); }
 	void RemoveCharacterCard(shared_ptr<CharacterCard> card) { characterCards.erase(find(characterCards.begin(), characterCards.end(), card)); }
+	void ClearCharacterCards() { characterCards.clear(); }
 	shared_ptr<CharacterCard> GetCharacterCard(string name);
 
 	bool IsKing()							{ return mIsKing; }
@@ -97,7 +102,7 @@ private:
 	bool m_isReady;
 
 	int		mPlayerID;			// Give the player an ID to identify
-	bool	mFirstEightPoints;	// If player reaches as first 8 cards, set to true.
+	bool	mFirstEightPoints = false;	// If player reaches as first 8 cards, set to true.
 
 	// Round information
 	bool	mIsKing;			// Is the player the king?

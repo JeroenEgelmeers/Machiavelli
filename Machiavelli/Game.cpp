@@ -39,6 +39,19 @@ void Game::StartGame()
 	}
 
 	deckBuildingCards.ShuffleDeck(); // Shuffle the deck
+
+	// Give players start gear
+	for (const auto &p : currentPlayers) {
+		p->AddGold(2);
+		int i = 0;
+		while (i <= 3) {
+			p->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
+			deckBuildingCards.RemoveCard(deckBuildingCards.GetDeck().at(0));
+
+			i++;
+		}
+		p->getClient()->write("You gained 2 gold and 4 building cards.\r\nmachiavelli> ");
+	}
 	
 	// Start the first round!
 	NewRound();
@@ -48,6 +61,10 @@ void Game::NewRound()
 {
 	string kingsName = "";
 	for (const auto &p : currentPlayers) {
+		// Remove characters.
+		p->ClearCharacterCards();
+
+		// Set current king
 		if (p->IsKing()) {
 			kingsName = p->get_name();
 			m_currentPlayer = p;
@@ -70,19 +87,6 @@ void Game::NewRound()
 
 	// Shuffle deck so the first will be always random.
 	deckCharacters.ShuffleDeck();
-
-	// Give players start gear
-	for (const auto &p : currentPlayers) {
-		p->AddGold(2);
-		int i = 0;
-		while (i <= 3) {
-			p->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
-			deckBuildingCards.RemoveCard(deckBuildingCards.GetDeck().at(0));
-
-			i++;
-		}
-		p->getClient()->write("You gained 2 gold and 4 building cards.\r\nmachiavelli> ");
-	}
 
 	for (const auto &p : currentPlayers) {
 		p->getClient()->write("A new round has started! \r\nmachiavelli> All characters are going back in the deck and they're getting shuffled! \r\nmachiavelli> ");
@@ -214,12 +218,12 @@ void Game::PlayRound()
 	while (currentCharacter < 9) {
 		int  playerBuild = 0;
 		for (const auto &p : currentPlayers) {
-			p->getClient()->write("King " + kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\n");
+			p->getClient()->write("King " + kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\nmachiavelli>");
 		}
 		bool charFound = false;
 		for (const auto &p : currentPlayers) {
 			if (p->HasAndCanPlayCharacter(CharacterType(currentCharacter))) {
-				p->getClient()->write("You've got this card! It's now your turn!");
+				p->getClient()->write("You've got this card! It's now your turn! \r\nmachiavelli>");
 				m_currentPlayer = p;
 				charFound = true;
 			}
@@ -228,7 +232,7 @@ void Game::PlayRound()
 			// Inform other players
 			for (const auto &p : currentPlayers) {
 				if (p->getId() != m_currentPlayer->getId()) {
-					p->getClient()->write(m_currentPlayer->get_name() + " has the " + CharacterTypeToString(CharacterType(currentCharacter)));
+					p->getClient()->write(m_currentPlayer->get_name() + " has the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\nmachiavelli>");
 				}
 			}
 			// Give player possiblity
@@ -237,7 +241,7 @@ void Game::PlayRound()
 			while (!validInput) {
 				message += "What would you like to do? \r\nmachiavelli> ";
 				message += "[1] Get 2 gold coins. \r\nmachiavelli> ";
-				message += "[2] Get 2 building cards. \r\nmachiavelli> ";
+				message += "[2] Get 1 building card. \r\nmachiavelli> ";
 				m_currentPlayer->getClient()->write(message);
 
 				string response = m_currentPlayer->getResponse();
@@ -245,23 +249,23 @@ void Game::PlayRound()
 				switch (playerInput) {
 					case 1:
 						m_currentPlayer->AddGold(2);
-						m_currentPlayer->getClient()->write("You took 2 gold coins.");
+						m_currentPlayer->getClient()->write("You took 2 gold coins. \r\nmachiavelli>");
 						validInput = true;
 						for (const auto &p : currentPlayers) {
 							if (p->getId() != m_currentPlayer->getId()) {
-								p->getClient()->write(m_currentPlayer->get_name() + " took 2 gold coins!");
+								p->getClient()->write(m_currentPlayer->get_name() + " took 2 gold coins! \r\nmachiavelli>");
 							}
 						}
 						break;
 					case 2:
-						deckBuildingCards.RemoveCardIndex(0);
-						m_currentPlayer->getClient()->write("You took a: " + deckBuildingCards.GetDeck().at(0)->GetName() + "from the building card deck.");
+						m_currentPlayer->getClient()->write("You took a: " + deckBuildingCards.GetDeck().at(0)->GetName() + " from the building card deck. \r\nmachiavelli>");
 						m_currentPlayer->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
 						deckBuildingCards.RemoveCardIndex(0);
+						deckBuildingCards.RemoveCardIndex(0); // TODO instead of removing one more, the player should be able to choose which he/she wants to get.
 						validInput = true;
 						for (const auto &p : currentPlayers) {
 							if (p->getId() != m_currentPlayer->getId()) {
-								p->getClient()->write(m_currentPlayer->get_name() + " took 1 building card!");
+								p->getClient()->write(m_currentPlayer->get_name() + " took 1 building card! \r\nmachiavelli>");
 							}
 						}
 						break;
@@ -275,8 +279,8 @@ void Game::PlayRound()
 			if (currentCharacter == 7) {
 				canBuild = 3;
 			}
-			validInput = false;
-			while (!validInput) {
+			bool validInput1 = false;
+			while (!validInput1) {
 				int playerInput;
 				if (canBuild > 0) {
 					message += "You can build " + std::to_string(canBuild) + " buildings. Would you like to build one? \r\nmachiavelli> ";
@@ -288,7 +292,7 @@ void Game::PlayRound()
 					playerInput = atoi(response.c_str());
 				}
 				else {
-					validInput = true;
+					validInput1 = true;
 					break;
 				}
 
@@ -307,18 +311,22 @@ void Game::PlayRound()
 							}
 							m_currentPlayer->getClient()->write(message);
 
-							int playerInputInner = -1; // TODO set player input
+							string response = m_currentPlayer->getResponse();
+							int playerInputInner = atoi(response.c_str());
+
 							if (playerInputInner == 0) {
 								validInputInner = true;
-								validInput		= true;
+								validInput1 = true;
 							}
 							if (playerInputInner <= i) {
-								if (m_currentPlayer->PlayCard(i)) {
+								if (m_currentPlayer->PlayCard(playerInputInner-1)) {
 									canBuild--;
 									for (const auto &p : currentPlayers) {
-										p->getClient()->write(m_currentPlayer->get_name() + " build one building! \r\nmachiavelli>");
+										if (p->getId() != m_currentPlayer->getId()) {
+											p->getClient()->write(m_currentPlayer->get_name() + " build one building! \r\nmachiavelli>");
+										}
 									}
-									if (!playerReachedEightPoints && m_currentPlayer->GetBuildingPoints() >= 8) {
+									if (!playerReachedEightPoints && m_currentPlayer->BuildingCardsOnTable() >= 8) {
 										playerReachedEightPoints = true;
 										m_currentPlayer->SetFirstEightPoints(true);
 										for (const auto &p : currentPlayers) {
@@ -329,10 +337,10 @@ void Game::PlayRound()
 								validInputInner = true;
 							}										
 						}
-						validInput = true;
+						validInput1 = true;
 						break;
 					case 2:
-						validInput = true;
+						validInput1 = true;
 						break;
 					default:
 						break;
@@ -355,7 +363,7 @@ void Game::VictoryCheck()
 	for (const auto &p : currentPlayers) {
 		if (p->FirstEightPoints()) {
 			victory = true;
-			p->getClient()->write("Game finished!" + p->get_name() + " played 8 or more buildling cards!");
+			p->getClient()->write("Game finished!" + p->get_name() + " played 8 or more buildling cards!  \r\nmachiavelli>");
 		}
 	}
 
@@ -369,7 +377,7 @@ void Game::VictoryCheck()
 			if (winnerPoints < p->GetWinningPoints()) {
 				winnerPoints = p->GetWinningPoints();
 				winnerName = p->get_name();
-				p->getClient()->write("You've got:" + std::to_string(p->GetWinningPoints()) + " points!");
+				p->getClient()->write("You've got:" + std::to_string(p->GetWinningPoints()) + " points!  \r\nmachiavelli>");
 			}
 		}
 
