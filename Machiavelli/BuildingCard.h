@@ -27,7 +27,8 @@ public:
 
 	std::string		GetName() { return mName; }
 	std::string		GetDescription() { return mDescription; } // Returns for character cards it's specialty
-
+	
+	std::string		GetBuildingColorString() { return ColorToString(mColor); }
 	CardColor		GetColor() { return mColor; }
 
 	void	Execute(Game game); // Should handle everything that the player gets when playing this card.

@@ -39,6 +39,7 @@ public:
 	std::string		GetDescription() { return mDescription; } // Returns for character cards it's specialty
 
 	CardColor		GetColor() { return mColor; }
+	std::string		GetCharacterColorString() { return ColorToString(mColor); }
 	CharacterType   GetCharacterType() { return mCharacterType;  }
 
 	virtual void	Execute(Game game) = 0; // Should handle everything that the player gets when playing this card.

@@ -176,7 +176,7 @@ void Game::PickCharacterCard(bool skipRemove)
 			string response = m_currentPlayer->getResponse();
 			int cardnr = atoi(response.c_str());
 			if (cardnr >= 1 && cardnr <= deckCharacters.GetDeck().size()) {
-				if (deckCharacters.GetDeck().at(cardnr - 1)->GetCharacterType() == CharacterType::Koning) {
+				if (deckCharacters.GetDeck().at(cardnr - 1)->GetCharacterType() == CharacterType::Koning && deckCharacters.GetDeckSize() > 1) {
 					m_currentPlayer->getClient()->write("You can't remove the king!\r\nmachiavelli> ");
 				}
 				else {
@@ -229,12 +229,12 @@ void Game::PlayRound()
 	while (currentCharacter < 9) {
 		int  playerBuild = 0;
 		for (const auto &p : currentPlayers) {
-			p->getClient()->write("King " + kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\nmachiavelli>");
+			p->getClient()->write("King " + kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\nmachiavelli> ");
 		}
 		bool charFound = false;
 		for (const auto &p : currentPlayers) {
 			if (p->HasAndCanPlayCharacter(CharacterType(currentCharacter))) {
-				p->getClient()->write("You've got this card! It's now your turn! \r\nmachiavelli>");
+				p->getClient()->write("You've got this card! It's now your turn! \r\nmachiavelli> ");
 				m_currentPlayer = p;
 				charFound = true;
 			}
@@ -243,16 +243,20 @@ void Game::PlayRound()
 			// Inform other players
 			for (const auto &p : currentPlayers) {
 				if (p->getId() != m_currentPlayer->getId()) {
-					p->getClient()->write(m_currentPlayer->get_name() + " has the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\nmachiavelli>");
+					p->getClient()->write(m_currentPlayer->get_name() + " has the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\nmachiavelli> ");
 				}
 			}
 			// Give player possiblity
-			bool validInput = false;
-			string message = "";
+			bool validInput = false; 
+			string message;
 			while (!validInput) {
+				message = "";
 				message += "What would you like to do? \r\nmachiavelli> ";
 				message += "[1] Get 2 gold coins. \r\nmachiavelli> ";
 				message += "[2] Get 1 building card. \r\nmachiavelli> ";
+				message += "[3] Check character cards. \r\nmachiavelli> ";
+				message += "[4] Check building cards. \r\nmachiavelli> ";
+				message += "[5] Check build buildings. \r\nmachiavelli> ";
 				m_currentPlayer->getClient()->write(message);
 
 				string response = m_currentPlayer->getResponse();
@@ -260,7 +264,7 @@ void Game::PlayRound()
 				switch (playerInput) {
 					case 1:
 						m_currentPlayer->AddGold(2);
-						m_currentPlayer->getClient()->write("You took 2 gold coins. \r\nmachiavelli>");
+						m_currentPlayer->getClient()->write("machiavelli> You took 2 gold coins. \r\nmachiavelli> ");
 						validInput = true;
 						for (const auto &p : currentPlayers) {
 							if (p->getId() != m_currentPlayer->getId()) {
@@ -280,6 +284,15 @@ void Game::PlayRound()
 							}
 						}
 						break;
+					case 3:
+						m_currentPlayer->PrintCharacterCards();
+						break;
+					case 4:
+						m_currentPlayer->PrintHandCards();
+						break;
+					case 5:
+						m_currentPlayer->PrintTableCards();
+						break;
 					default:
 						break;
 				}
@@ -294,6 +307,7 @@ void Game::PlayRound()
 			while (!validInput1) {
 				int playerInput;
 				if (canBuild > 0) {
+					message = "";
 					message += "You can build " + std::to_string(canBuild) + " buildings. Would you like to build one? \r\nmachiavelli> ";
 					message += "[1] Yes. \r\nmachiavelli> ";
 					message += "[2] No. \r\nmachiavelli> ";
@@ -312,12 +326,12 @@ void Game::PlayRound()
 
 					case 1:
 						while (!validInputInner && playerBuild <= canBuild) {
-							message = "";
-							message += "Which card would you like to build?\r\nmachiavelli>";
-							message += "[0] I don't want to play a card.\r\nmachiavelli>";
+							message = "\r\nmachiavelli> ";
+							message += "Which card would you like to build?\r\nmachiavelli> ";
+							message += "[0] I don't want to play a card.\r\nmachiavelli> ";
 							int i = 1;
 							for (const auto &c : m_currentPlayer->GetHandCards()) {
-								message += "["+std::to_string(i)+"] " + c->GetName() + " cost: " + std::to_string(c->GetGoldCoins()) + "\r\nmachiavelli>";
+								message += "["+std::to_string(i)+"] " + c->GetName() + " cost: " + std::to_string(c->GetGoldCoins()) + "\r\nmachiavelli> ";
 								i++;
 							}
 							m_currentPlayer->getClient()->write(message);
@@ -329,7 +343,7 @@ void Game::PlayRound()
 								validInputInner = true;
 								validInput1 = true;
 							}
-							if (playerInputInner <= i) {
+							else if (playerInputInner <= i) {
 								if (m_currentPlayer->PlayCard(playerInputInner-1)) {
 									canBuild--;
 									for (const auto &p : currentPlayers) {
@@ -464,7 +478,7 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 
 	if (gameStarted == false) {
 		if (command == "join") {
-			message = "Player " + player->get_name() + " has joined, welcome him.\r\n" + "machiavelli> ";
+			message = "Player " + player->get_name() + " has joined. \r\n" + "machiavelli> ";
 
 			for (const auto &p : currentPlayers) {
 				if (p->getId() != player->getId()) {
@@ -472,6 +486,12 @@ void Game::handleCommand(shared_ptr<Player> player, string command) {
 				}
 				else {
 					p->getClient()->write("machiavelli> ");
+				}
+			}
+
+			if (currentPlayers.size() >= 2) {
+				for (const auto &p : currentPlayers) {					
+					p->getClient()->write("Enough players have joined.\r\nmachiavelli> Type ready to begin. \r\nmachiavelli> ");
 				}
 			}
 		}

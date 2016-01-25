@@ -75,28 +75,38 @@ bool Player::PlayCard(int handCardId)
 	return false;
 }
 
-void Player::PrintHandCards() {
-	//for (size_t i = 0; i < buildingCardsInHand.size(); i++)
-	//{
-	//	// Write this line to client.
-	//	// buildingCardsInHand[i].GetDescription();	
-	//}
+void Player::PrintHandCards() {	
+	// Write this line to client.
+	string message = "machiavelli> ";
+	message += "You have the following building cards in your hand: \r\nmachiavelli> ";
+	for (const auto &c : buildingCardsInHand) {
+		message += c->GetName() + ", " + c->GetBuildingColorString() + ", Cost: " + std::to_string(c->GetCoins()) + " \r\nmachiavelli> ";
+	}
+
+	client->write(message);
 }
 
 void Player::PrintTableCards() { 
-	//for (size_t i = 0; i < buildingCardsOnTable.size(); i++)
-	//{
-	//	// Write this line to client.
-	//	// buildingCardsOnTable[i].GetDescription();	
-	//}
+	// Write this line to client.
+	string message = "machiavelli> ";
+	message += "You have build the following buildings: \r\nmachiavelli> ";
+	message += "You have build " + std::to_string(buildingCardsOnTable.size()) + " \r\nmachiavelli> ";
+	for (const auto &c : buildingCardsOnTable) {
+		message += c->GetName() + ", " + c->GetBuildingColorString() + ", Points: " + std::to_string(c->GetCoins()) + " \r\nmachiavelli> ";
+	}
+
+	client->write(message);
 }
 
-void Player::PrintCharacterCards() { 
-	//for (size_t i = 0; i < characterCards.size(); i++)
-	//{
-	//	// Write this line to client.
-	//	// characterCards[i].GetDescription();
-	//}
+void Player::PrintCharacterCards() {
+	// Write this line to client.
+	string message = "machiavelli> ";
+	message += "You have the following character cards this round: \r\nmachiavelli> ";
+	for (const auto &c : characterCards) {
+		message += c->GetName() + ", " + c->GetCharacterColorString() + " \r\nmachiavelli> ";
+	}
+
+	client->write(message);
 }
 
 void Player::ExecuteCharacterCard(int cardID, Game game)

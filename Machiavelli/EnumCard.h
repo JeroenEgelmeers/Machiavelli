@@ -20,3 +20,17 @@ inline const char* CharacterTypeToString(CharacterType c)
 		default: return "NONE";
 	}
 }
+
+inline const char* ColorToString(CardColor c)
+{
+	switch (c)
+	{
+		case CardColor::white:		return "White";
+		case CardColor::yellow:		return "Yellow";
+		case CardColor::green:		return "Green";
+		case CardColor::blue:		return "Blue";
+		case CardColor::red:		return "Red";
+		case CardColor::lila:		return "Lila";
+		default:					return "White";
+	}
+}
