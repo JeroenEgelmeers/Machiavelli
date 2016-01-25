@@ -27,6 +27,7 @@ public:
 	bool	GetSpecialtyPlayed()	{ return mSpecialtyPlayed; }
 	bool	GetIsAlive()			{ return mAlive; }
 	bool	GetBeenStolen()			{ return mBeenStolen; }
+	void	SetBeenStolen(bool input) { mBeenStolen = input; }
 
 	bool	GetVisible() { return mVisible; }
 	void	SetVisible(bool visible) { mVisible = visible; }

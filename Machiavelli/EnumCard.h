@@ -25,12 +25,28 @@ inline const char* ColorToString(CardColor c)
 {
 	switch (c)
 	{
-		case CardColor::white:		return "White";
-		case CardColor::yellow:		return "Yellow";
-		case CardColor::green:		return "Green";
-		case CardColor::blue:		return "Blue";
-		case CardColor::red:		return "Red";
-		case CardColor::lila:		return "Lila";
-		default:					return "White";
+	case CardColor::white:		return "White";
+	case CardColor::yellow:		return "Yellow";
+	case CardColor::green:		return "Green";
+	case CardColor::blue:		return "Blue";
+	case CardColor::red:		return "Red";
+	case CardColor::lila:		return "Lila";
+	default:					return "White";
+	}
+}
+
+inline const char* CharacterTypeIDToString(int c)
+{
+	switch (c)
+	{
+		case 1:		return "Moordenaar";
+		case 2:		return "Dief";
+		case 3:		return "Tovenaar";
+		case 4:		return "Koning";
+		case 5:		return "Prediker";
+		case 6:		return "Koopman";
+		case 7:		return "Bouwmeester";
+		case 8:		return "Condottiere";
+		default:	return "NONE";
 	}
 }
