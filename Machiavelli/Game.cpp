@@ -212,8 +212,9 @@ void Game::PlayRound()
 
 	// Step 1: Loop through characters
 	while (currentCharacter < 9) {
+		int  playerBuild = 0;
 		for (const auto &p : currentPlayers) {
-			p->getClient()->write("King " + kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)));
+			p->getClient()->write("King " + kingName + " asks for the " + CharacterTypeToString(CharacterType(currentCharacter)) + "\r\n");
 		}
 		bool charFound = false;
 		for (const auto &p : currentPlayers) {
@@ -239,7 +240,8 @@ void Game::PlayRound()
 				message += "[2] Get 2 building cards. \r\nmachiavelli> ";
 				m_currentPlayer->getClient()->write(message);
 
-				int playerInput = 0; // TODO player input
+				string response = m_currentPlayer->getResponse();
+				int playerInput = atoi(response.c_str());
 				switch (playerInput) {
 					case 1:
 						m_currentPlayer->AddGold(2);
@@ -281,14 +283,15 @@ void Game::PlayRound()
 					message += "[1] Yes. \r\nmachiavelli> ";
 					message += "[2] No. \r\nmachiavelli> ";
 					m_currentPlayer->getClient()->write(message);
-					playerInput = 0; // TODO player input;
+
+					string response = m_currentPlayer->getResponse();
+					playerInput = atoi(response.c_str());
 				}
 				else {
 					validInput = true;
 					break;
 				}
 
-				int  playerBuild = 0;
 				bool validInputInner = false;
 				switch (playerInput) {
 
@@ -299,12 +302,12 @@ void Game::PlayRound()
 							message += "[0] I don't want to play a card.\r\nmachiavelli>";
 							int i = 1;
 							for (const auto &c : m_currentPlayer->GetHandCards()) {
-								message += "["+std::to_string(i)+"] " + c->GetName() + " cost: " + std::to_string(c->GetGoldCoins());
+								message += "["+std::to_string(i)+"] " + c->GetName() + " cost: " + std::to_string(c->GetGoldCoins()) + "\r\nmachiavelli>";
 								i++;
 							}
 							m_currentPlayer->getClient()->write(message);
 
-							int playerInputInner = -1;
+							int playerInputInner = -1; // TODO set player input
 							if (playerInputInner == 0) {
 								validInputInner = true;
 								validInput		= true;
@@ -313,13 +316,13 @@ void Game::PlayRound()
 								if (m_currentPlayer->PlayCard(i)) {
 									canBuild--;
 									for (const auto &p : currentPlayers) {
-										p->getClient()->write(m_currentPlayer->get_name() + " build one building!");
+										p->getClient()->write(m_currentPlayer->get_name() + " build one building! \r\nmachiavelli>");
 									}
 									if (!playerReachedEightPoints && m_currentPlayer->GetBuildingPoints() >= 8) {
 										playerReachedEightPoints = true;
 										m_currentPlayer->SetFirstEightPoints(true);
 										for (const auto &p : currentPlayers) {
-											p->getClient()->write(m_currentPlayer->get_name() + " reached 8 points!");
+											p->getClient()->write(m_currentPlayer->get_name() + " reached 8 points! \r\nmachiavelli>");
 										}
 									}
 								}
