@@ -40,6 +40,18 @@ bool Player::HasAndCanPlayCharacter(CharacterType c)
 	for (const auto &ch : characterCards) {
 		if (ch->GetCharacterType() == c) {
 			if (ch->GetIsAlive()) {
+				if (ch->GetBeenStolen()) {
+					client->write("Arrghh! You've been stolen by the thief! \r\nmachiavelli>");
+					for (const auto &p : game->getCurrentPlayers()) {
+						for (const auto &thief : p->GetCharacterCards()) {
+							if (thief->GetCharacterType() == CharacterType::Dief) {
+								p->AddGold(game->getCurrentPlayer()->mGold);
+								game->getCurrentPlayer()->RemoveGold(game->getCurrentPlayer()->mGold);
+								p->getClient()->write("Muhaha! You stolen " + std::to_string(game->getCurrentPlayer()->mGold) + " gold from "+ game->getCurrentPlayer()->get_name() +" \r\nmachiavelli>");
+							}
+						}
+					}
+				}
 				return true;
 			}
 			else {

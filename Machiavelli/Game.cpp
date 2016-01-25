@@ -80,9 +80,21 @@ void Game::NewRound()
 			kingsName = p->get_name();
 			m_currentPlayer = p;
 		}
-		// Set this as we need this later.
-		if (p->WasKing()) {
-			p->SetWasKing(false);
+	}
+	if (kingsName == "") {
+		for (const auto &p : currentPlayers) {
+			if (p->WasKing()) {
+				p->SetKing(true);
+				p->SetWasKing(false);
+			}
+		}
+	}
+	else {
+		for (const auto &p : currentPlayers) {
+			// Set this as we need this later.
+			if (p->WasKing()) {
+				p->SetWasKing(false);
+			}
 		}
 	}
 
