@@ -1,11 +1,9 @@
 #include "BuildingCard.h"
 #include "Game.h"
 
-BuildingCard::BuildingCard(string name, CardColor color, int goldCoins, int silverCoins, CharacterType type) : BaseCard(name, color, type)
-{
-	mGoldCoins		= goldCoins;
-	mSilverCoins	= silverCoins;
-}
+BuildingCard::BuildingCard(string name, CardColor color, int silverCoins, int goldCoins)
+	: mGoldCoins(goldCoins), mSilverCoins(silverCoins), mColor(color), mName(name)
+{}
 
 BuildingCard::~BuildingCard() {} // TODO
 

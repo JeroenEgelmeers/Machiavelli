@@ -87,9 +87,6 @@
     <ClInclude Include="Bouwmeester.h">
       <Filter>Header Files\Cards\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCard.h">
-      <Filter>Header Files\Cards</Filter>
-    </ClInclude>
     <ClInclude Include="CardFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -146,17 +143,11 @@
     <ClCompile Include="Bouwmeester.cpp">
       <Filter>Source Files\Cards\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCard.cpp">
-      <Filter>Source Files\Cards</Filter>
-    </ClCompile>
     <ClCompile Include="CardFactory.cpp">
       <Filter>Source Files\Cards</Filter>
     </ClCompile>
     <ClCompile Include="Condottiere.cpp">
       <Filter>Source Files\Cards\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="CardDeck.cpp">
-      <Filter>Source Files\Cards</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

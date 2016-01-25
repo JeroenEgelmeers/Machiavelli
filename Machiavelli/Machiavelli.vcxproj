@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseCard.h" />
     <ClInclude Include="Bouwmeester.h" />
     <ClInclude Include="BuildingCard.h" />
     <ClInclude Include="CardDeck.h" />
@@ -44,10 +43,8 @@
     <None Include="Machiavelli.aps" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseCard.cpp" />
     <ClCompile Include="Bouwmeester.cpp" />
     <ClCompile Include="BuildingCard.cpp" />
-    <ClCompile Include="CardDeck.cpp" />
     <ClCompile Include="CardFactory.cpp" />
     <ClCompile Include="CharacterCard.cpp" />
     <ClCompile Include="Condottiere.cpp" />

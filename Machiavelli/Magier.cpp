@@ -2,7 +2,7 @@
 #include "Game.h"
 
 
-Magier::Magier() : CharacterCard("Magiër", CardColor::white, CharacterType::Magiër){}
+Magier::Magier() : CharacterCard("Tovenaar", CardColor::white, CharacterType::Magiër){}
 Magier::~Magier(){}
 
 void Magier::Execute(Game game)

@@ -1,21 +1,36 @@
 #pragma once
-#include "BaseCard.h"
+#include <string>
+#include "EnumCard.h"
 
-class BuildingCard : public BaseCard
+class Game;
+
+class BuildingCard
 {
 private:
-	int		mGoldCoins;
-	int		mSilverCoins; // Where are those for?
+	bool		mVisible;
+	int			mGoldCoins;
+	int			mSilverCoins; // Where are those for?
+	std::string	mName;
+	std::string	mDescription;
+	CardColor	mColor;
 
 public:
-	BuildingCard(string name, CardColor color, int goldCoins, int silverCoins, CharacterType type = CharacterType::NONE);
+	BuildingCard(std::string name, CardColor color, int goldCoins, int silverCoins);
 	~BuildingCard();
+	
+	bool	GetVisible() { return mVisible; }
+	void	SetVisible(bool visible) { mVisible = visible; }
 
-	int		GetGoldCoins()		{ return mGoldCoins;	} // Returns only Gold coins
-	int		GetSilverCoins()	{ return mSilverCoins;	} // Returns only Silver coins
-	int		GetCoins()			{ return (mGoldCoins + mSilverCoins); } // Returns total coins
+	int		GetGoldCoins() { return mGoldCoins; } // Returns only Gold coins
+	int		GetSilverCoins() { return mSilverCoins; } // Returns only Silver coins
+	int		GetCoins() { return (mGoldCoins + mSilverCoins); } // Returns total coins
 
-	void	Execute(Game game)override; // Should handle everything that the player gets when playing this card.
-	void	Print()override; // Should handle the print events of card.
+	std::string		GetName() { return mName; }
+	std::string		GetDescription() { return mDescription; } // Returns for character cards it's specialty
+
+	CardColor		GetColor() { return mColor; }
+
+	void	Execute(Game game); // Should handle everything that the player gets when playing this card.
+	void	Print(); // Should handle the print events of card.
 };
 

@@ -7,6 +7,7 @@
 #include <memory>
 #include <thread>
 #include "CardFactory.h"
+#include "CharacterCard.h"
 
 
 Game::Game() : gameStarted{ false }
@@ -19,8 +20,8 @@ Game::~Game()
 }
 
 void Game::loadResources() {	
-	buildCards		= readCSV("../Resources/Bouwkaarten.csv", CardType::bouw);
-	characterCards	= readCSV("../Resources/Karakterkaarten.csv", CardType::karakter);
+	readCSV("../Resources/Bouwkaarten.csv", CardType::bouw);
+	readCSV("../Resources/Karakterkaarten.csv", CardType::karakter);
 	
 	currentPlayers = std::vector<std::shared_ptr<Player>>();
 	cerr << "Resources initialized." << '\n';
@@ -30,7 +31,7 @@ void Game::StartGame()
 {
 	gameStarted = true;
 	m_currentPlayer = currentPlayers.at(0);
-	currentPlayers.at(0)->SetKing(true); // First player will be the King!
+	m_currentPlayer->SetKing(true); // First player will be the King!
 
 	// Get the building cards and store them in the buildlingcard deck
 	for (const auto &c : buildCards) {
@@ -107,16 +108,16 @@ void Game::SetupRound()
 
 	// Then all other players (looping)
 	while (deckCharacters.GetDeckSize() > 0) {
-		m_currentPlayer->getClient()->write("It's now your turn. Pick a new Character card.");
+		m_currentPlayer->getClient()->write("It's now your turn. Pick a new Character card.\r\nmachiavelli> ");
 		PickCharacterCard(false);
 		ChangeCurrentPlayer();
 	}
 
 	for (const auto &p : currentPlayers) {
-		p->getClient()->write("The character deck is cleared! Let's start!");
+		p->getClient()->write("The character deck is cleared! Let's start!\r\nmachiavelli> ");
 	}
 	
-	//PlayRound(); // TODO
+	PlayRound(); // TODO
 }
 
 void Game::ShowCharacterCardsLeft() {
@@ -127,7 +128,7 @@ void Game::ShowCharacterCardsLeft() {
 		i++;
 	}
 
-	m_currentPlayer->getClient()->write(message + "\r\nmachiavelli> ");
+	m_currentPlayer->getClient()->write(message);
 }
 
 void Game::PickCharacterCard(bool skipRemove)
@@ -140,19 +141,20 @@ void Game::PickCharacterCard(bool skipRemove)
 		string response = m_currentPlayer->getResponse();
 		int cardnr = atoi(response.c_str());
 		if (cardnr >= 1 && cardnr <= deckCharacters.GetDeck().size()) {
-			m_currentPlayer->AddCharacterCard(dynamic_pointer_cast<CharacterCard>(deckCharacters.GetDeck().at(cardnr-1)));
-			m_currentPlayer->getClient()->write("You picked "+ deckCharacters.GetDeck().at(cardnr - 1)->GetName() +".\r\nmachiavelli> ");
+			m_currentPlayer->AddCharacterCard(deckCharacters.GetDeck().at(cardnr - 1));
+
+			m_currentPlayer->getClient()->write("machiavelli> You picked "+ deckCharacters.GetDeck().at(cardnr - 1)->GetName() +".\r\nmachiavelli> ");
 			deckCharacters.RemoveCardIndex(cardnr-1);
 			inputTrue = true;
 		}
 		else {
-			m_currentPlayer->getClient()->write("Invalid input. Please try again.\r\nmachiavelli> ");
+			m_currentPlayer->getClient()->write("machiavelli> Invalid input. Please try again.\r\nmachiavelli> ");
 		}
 	}
 
 	if (!skipRemove) {
 		// Remove a card
-		m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left. Which do you want to remove?\r\nmachiavelli> ");
+		m_currentPlayer->getClient()->write("There are " + std::to_string(deckCharacters.GetDeckSize()) + " characters left.\r\nmachiavelli> Which do you want to remove?\r\nmachiavelli> ");
 		ShowCharacterCardsLeft();
 		inputTrue = false;
 		while (!inputTrue) {
@@ -164,12 +166,12 @@ void Game::PickCharacterCard(bool skipRemove)
 				}
 				else {
 					deckCharacters.RemoveCardIndex(cardnr - 1);
-					m_currentPlayer->getClient()->write("Card removed.\r\nmachiavelli> ");
+					m_currentPlayer->getClient()->write("machiavelli> Card removed.\r\nmachiavelli> ");
 					inputTrue = true;
 				}
 			}
 			else {
-				m_currentPlayer->getClient()->write("Invalid input. Please try again.\r\nmachiavelli> ");
+				m_currentPlayer->getClient()->write("machiavelli> Invalid input. Please try again.\r\nmachiavelli> ");
 			}
 		}
 	}
@@ -185,11 +187,15 @@ void Game::ChangeCurrentPlayer()
 			playerFound = true;
 		}
 		else if (playerFound) {
+			m_currentPlayer->getClient()->write("End of your turn, please wait...\r\nmachiavelli> ");
 			m_currentPlayer = p;
 			playerChanged = true;
 		}
 	}
-	if (!playerChanged) { m_currentPlayer = currentPlayers.at(0); }
+	if (!playerChanged) {
+		m_currentPlayer->getClient()->write("End of your turn, please wait...\r\nmachiavelli> ");
+		m_currentPlayer = currentPlayers.at(0); 
+	}
 }
 
 void Game::PlayRound()
@@ -374,12 +380,10 @@ void Game::VictoryCheck()
 	}
 }
 
-std::vector<std::shared_ptr<BaseCard>> Game::readCSV(const std::string& path, CardType type) {
+void Game::readCSV(const std::string& path, CardType type) {
 	CardFactory m_CF = CardFactory();
 
 	ifstream infile(path);
-
-	std::vector<std::shared_ptr<BaseCard>> cards;
 
 	while (infile)
 	{
@@ -402,10 +406,10 @@ std::vector<std::shared_ptr<BaseCard>> Game::readCSV(const std::string& path, Ca
 			}
 			
 			if (type == CardType::bouw) {
-				cards.push_back(m_CF.CreateInstance(record.at(0), atoi(record.at(1).c_str()), record.at(2)));
+				buildCards.push_back(m_CF.CreateInstance(record.at(0), atoi(record.at(1).c_str()), record.at(2)));
 			}
 			else {
-				cards.push_back(m_CF.CreateInstance(record.at(1)));
+				characterCards.push_back(m_CF.CreateInstance(record.at(1)));
 			}
 		}
 	}
@@ -413,8 +417,6 @@ std::vector<std::shared_ptr<BaseCard>> Game::readCSV(const std::string& path, Ca
 	{
 		cerr << "Fooey!\n";
 	}
-
-	return cards;
 }
 
 void Game::AddPlayer(std::shared_ptr<Player> p) {

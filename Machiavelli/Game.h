@@ -4,7 +4,8 @@
 #include <vector>
 #include <memory>
 
-#include "BaseCard.h"
+#include "CharacterCard.h"
+#include "BuildingCard.h"
 #include "Player.h"
 #include "CardDeck.h"
 
@@ -29,23 +30,23 @@ private:
 	std::vector<std::shared_ptr<Player>> currentPlayers;
 	std::shared_ptr<Player> m_currentPlayer;
 
-	std::vector<std::shared_ptr<BaseCard>> buildCards;
-	std::vector<std::shared_ptr<BaseCard>> characterCards;
+	std::vector<std::shared_ptr<BuildingCard>> buildCards;
+	std::vector<std::shared_ptr<CharacterCard>> characterCards;
 
 	void loadResources();
 
 	void NewRound();
 	void SetupRound();
-		void PickCharacterCard(bool skipRemove);
-			void ShowCharacterCardsLeft();
-		void ChangeCurrentPlayer();
+	void PickCharacterCard(bool skipRemove);
+	void ShowCharacterCardsLeft();
+	void ChangeCurrentPlayer();
 	void PlayRound();
 	void VictoryCheck();
 
-	CardDeck deckCharacters;
-	CardDeck deckBuildingCards;
+	CardDeck<CharacterCard> deckCharacters;
+	CardDeck<BuildingCard> deckBuildingCards;
 
-	std::vector<std::shared_ptr<BaseCard>> readCSV(const std::string& path, CardType type);
+	void readCSV(const std::string& path, CardType type);
 
 	bool allPlayersReady();
 	bool playerReachedEightPoints = false;

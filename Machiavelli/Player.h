@@ -16,7 +16,6 @@
 #include <memory>
 #include "CharacterCard.h"
 #include "BuildingCard.h"
-#include "BaseCard.h"
 
 using namespace std;
 

@@ -10,6 +10,12 @@
 #include "Bouwmeester.h"
 #include "Condottiere.h"
 
+using std::make_pair;
+using std::string;
+using std::map;
+using std::make_shared;
+using std::shared_ptr;
+
 CardFactory::CardFactory()
 {
 	colorResolver = map<string, CardColor>();
@@ -36,28 +42,28 @@ CardFactory::~CardFactory()
 {
 }
 
-std::shared_ptr<BaseCard> CardFactory::CreateInstance(string name, int goldCoins, string color) {
-	return make_shared<BaseCard>(BuildingCard(name, colorResolver.find(color)->second, goldCoins, 0));
+shared_ptr<BuildingCard> CardFactory::CreateInstance(string name, int goldCoins, string color) {
+	return make_shared<BuildingCard>(BuildingCard(name, colorResolver.find(color)->second, goldCoins, 0));
 }
 
-std::shared_ptr<BaseCard> CardFactory::CreateInstance(string type) {
+shared_ptr<CharacterCard> CardFactory::CreateInstance(string type) {
 	switch (cardTypeResolver.find(type)->second) {
 	case CharacterType::Moordenaar:
-		return make_shared<BaseCard>(Moordenaar());
+		return make_shared<CharacterCard>(Moordenaar());
 	case CharacterType::Dief:
-		return make_shared<BaseCard>(Dief());
+		return make_shared<CharacterCard>(Dief());
 	case CharacterType::Magiër:
-		return make_shared<BaseCard>(Magier());
+		return make_shared<CharacterCard>(Magier());
 	case CharacterType::Koning:
-		return make_shared<BaseCard>(Koning());
+		return make_shared<CharacterCard>(Koning());
 	case CharacterType::Prediker:
-		return make_shared<BaseCard>(Prediker());
+		return make_shared<CharacterCard>(Prediker());
 	case CharacterType::Koopman:
-		return make_shared<BaseCard>(Koopman());
+		return make_shared<CharacterCard>(Koopman());
 	case CharacterType::Bouwmeester:
-		return make_shared<BaseCard>(Bouwmeester());
+		return make_shared<CharacterCard>(Bouwmeester());
 	case CharacterType::Condottiere:
-		return make_shared<BaseCard>(Condottiere());
+		return make_shared<CharacterCard>(Condottiere());
 	}
 	
 	return nullptr;
