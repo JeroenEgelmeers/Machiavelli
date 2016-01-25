@@ -29,32 +29,43 @@ void Game::loadResources() {
 
 void Game::StartGame()
 {
-	gameStarted = true;
-	m_currentPlayer = currentPlayers.at(0);
-	m_currentPlayer->SetKing(true); // First player will be the King!
+	try {
+		gameStarted = true;
+		m_currentPlayer = currentPlayers.at(0);
+		m_currentPlayer->SetKing(true); // First player will be the King!
 
-	// Get the building cards and store them in the buildlingcard deck
-	for (const auto &c : buildCards) {
-		deckBuildingCards.AddCard(c);
-	}
-
-	deckBuildingCards.ShuffleDeck(); // Shuffle the deck
-
-	// Give players start gear
-	for (const auto &p : currentPlayers) {
-		p->AddGold(2);
-		int i = 0;
-		while (i <= 3) {
-			p->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
-			deckBuildingCards.RemoveCard(deckBuildingCards.GetDeck().at(0));
-
-			i++;
+		// Get the building cards and store them in the buildlingcard deck
+		for (const auto &c : buildCards) {
+			deckBuildingCards.AddCard(c);
 		}
-		p->getClient()->write("You gained 2 gold and 4 building cards.\r\nmachiavelli> ");
+
+		deckBuildingCards.ShuffleDeck(); // Shuffle the deck
+
+		// Give players start gear
+		for (const auto &p : currentPlayers) {
+			p->AddGold(2);
+			int i = 0;
+			while (i <= 3) {
+				p->AddHandCard(dynamic_pointer_cast<BuildingCard>(deckBuildingCards.GetDeck().at(0)));
+				deckBuildingCards.RemoveCard(deckBuildingCards.GetDeck().at(0));
+
+				i++;
+			}
+			p->getClient()->write("You gained 2 gold and 4 building cards.\r\nmachiavelli> ");
+		}
+		// Start the first round!
+		NewRound();
 	}
-	
-	// Start the first round!
-	NewRound();
+	catch (int e) {
+		gameStarted = false;
+		if (currentPlayers.size() < 2) {
+			for (const auto &p : currentPlayers) {
+				p->SetKing(false);
+				p->isReady(false);
+				p->getClient()->write("Unable to continue! \r\nmachiavelli> ");
+			}
+		}
+	}
 }
 
 void Game::NewRound()
