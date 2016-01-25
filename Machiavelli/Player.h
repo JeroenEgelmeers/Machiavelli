@@ -43,7 +43,7 @@ public:
 	void RemoveTableCard(shared_ptr<BuildingCard> card);
 	bool HasAndCanPlayCharacter(CharacterType c);
 	vector<shared_ptr<BuildingCard>> GetHandCards() { return buildingCardsInHand; }
-	int BuildingCardsOnTable() { 
+	size_t BuildingCardsOnTable() { 
 		return buildingCardsOnTable.size(); 
 	}
 
