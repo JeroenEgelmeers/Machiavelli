@@ -29,19 +29,31 @@ void Game::loadResources() {
 
 void Game::StartGame()
 {
-	gameStarted = true;
-	m_currentPlayer = currentPlayers.at(0);
-	m_currentPlayer->SetKing(true); // First player will be the King!
+	try {
+		gameStarted = true;
+		m_currentPlayer = currentPlayers.at(0);
+		m_currentPlayer->SetKing(true); // First player will be the King!
 
-	// Get the building cards and store them in the buildlingcard deck
-	for (const auto &c : buildCards) {
-		deckBuildingCards.AddCard(c);
+		// Get the building cards and store them in the buildlingcard deck
+		for (const auto &c : buildCards) {
+			deckBuildingCards.AddCard(c);
+		}
+
+		deckBuildingCards.ShuffleDeck(); // Shuffle the deck
+
+		// Start the first round!
+		NewRound();
 	}
-
-	deckBuildingCards.ShuffleDeck(); // Shuffle the deck
-	
-	// Start the first round!
-	NewRound();
+	catch (int e) {
+		gameStarted = false;
+		if (currentPlayers.size() < 2) {
+			for (const auto &p : currentPlayers) {
+				p->SetKing(false);
+				p->isReady(false);
+				p->getClient()->write("Unable to continue! \r\nmachiavelli> ");
+			}
+		}
+	}
 }
 
 void Game::NewRound()
