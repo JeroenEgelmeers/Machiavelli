@@ -263,6 +263,7 @@ void Game::PlayRound()
 			string message;
 			while (!validInput) {
 				message = "";
+				message += "You have "+ std::to_string(m_currentPlayer->getCoins()) + " coins. \r\nmachiavelli> ";
 				message += "What would you like to do? \r\nmachiavelli> ";
 				message += "[1] Get 2 gold coins. \r\nmachiavelli> ";
 				message += "[2] Get 1 building card. \r\nmachiavelli> ";

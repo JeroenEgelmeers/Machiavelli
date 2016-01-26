@@ -18,12 +18,12 @@ void Moordenaar::Execute(Game game)
 			for (auto const &p : game.getCurrentPlayers()) {
 				for (auto const &c : p->GetCharacterCards()) {
 					if (c->GetCharacterType() == CharacterType(responseInt + 1)) {
-						c->SetIsAlive(false);
-						for (auto const &pl : game.getCurrentPlayers()) {
-							pl->getClient()->write("The murder killed the " + c->GetName() + "!\r\nmachiavelli> ");
-						}
+						c->SetIsAlive(false);						
 					}
 				}
+			}
+			for (auto const &pl : game.getCurrentPlayers()) {
+				pl->getClient()->write("The murderer killed the " + std::string(CharacterTypeIDToString(responseInt + 2)) + ".\r\nmachiavelli> ");
 			}
 			inputTrue = true;
 		}

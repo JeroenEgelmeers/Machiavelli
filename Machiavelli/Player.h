@@ -93,6 +93,8 @@ public:
 		return nullptr;
 	}
 
+	int getCoins() { return mGold; };
+
 	const shared_ptr<Socket> getClient() { return client; }
 
 private:
