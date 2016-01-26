@@ -22,12 +22,12 @@ void Dief::Execute(Game game)
 			for (auto const &p : game.getCurrentPlayers()) {
 				for (auto const &c : p->GetCharacterCards()) {
 					if (c->GetCharacterType() == CharacterType(responseInt+2)) {
-						c->SetBeenStolen(true);
-						for (auto const &pl : game.getCurrentPlayers()) {
-							pl->getClient()->write("The thief called the "+ c->GetName() +" to steal from.\r\nmachiavelli> ");
-						}
+						c->SetBeenStolen(true);				
 					}
 				}
+			}
+			for (auto const &pl : game.getCurrentPlayers()) {
+				pl->getClient()->write("The thief called the " + std::string(CharacterTypeIDToString(responseInt + 2)) + " to steal from.\r\nmachiavelli> ");
 			}
 			inputTrue = true;
 		}
