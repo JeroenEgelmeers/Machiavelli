@@ -2,7 +2,7 @@
 #include "Game.h"
 
 
-Moordenaar::Moordenaar() : CharacterCard("Moordenaar", CardColor::white, CharacterType::Moordenaar){}
+Moordenaar::Moordenaar() : CharacterCard("Murder", CardColor::white, CharacterType::Moordenaar){}
 Moordenaar::~Moordenaar(){}
 
 void Moordenaar::Execute(Game game)

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Magier::Magier() : CharacterCard("Tovenaar", CardColor::white, CharacterType::Magiër){}
+Magier::Magier() : CharacterCard("Magier", CardColor::white, CharacterType::Magiër){}
 Magier::~Magier(){}
 
 void Magier::Execute(Game game)

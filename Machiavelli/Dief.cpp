@@ -3,7 +3,7 @@
 #include "EnumCard.h"
 
 
-Dief::Dief() : CharacterCard("Dief", CardColor::white, CharacterType::Dief){}
+Dief::Dief() : CharacterCard("Thief", CardColor::white, CharacterType::Dief){}
 Dief::~Dief(){}
 
 void Dief::Execute(Game game)

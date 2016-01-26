@@ -9,13 +9,13 @@ inline const char* CharacterTypeToString(CharacterType c)
 {
 	switch (c)
 	{
-		case CharacterType::Moordenaar:		return "Moordenaar";
-		case CharacterType::Dief:			return "Dief";
-		case CharacterType::Magiër:			return "Tovenaar";
-		case CharacterType::Koning:			return "Koning";
+		case CharacterType::Moordenaar:		return "Murder";
+		case CharacterType::Dief:			return "Thief";
+		case CharacterType::Magiër:			return "Magier";
+		case CharacterType::Koning:			return "King";
 		case CharacterType::Prediker:		return "Prediker";
-		case CharacterType::Koopman:		return "Koopman";
-		case CharacterType::Bouwmeester:	return "Bouwmeester";
+		case CharacterType::Koopman:		return "Merchant";
+		case CharacterType::Bouwmeester:	return "Building master";
 		case CharacterType::Condottiere:	return "Condottiere";
 		default: return "NONE";
 	}
