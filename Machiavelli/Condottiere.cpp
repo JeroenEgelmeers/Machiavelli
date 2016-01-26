@@ -45,7 +45,7 @@ void Condottiere::Execute(Game game)
 								int c = 0;
 								for (auto const &ch : p->GetBuildlingCardsOnTable()) {
 									c++;
-									message += "[" + std::to_string(c) + "] " + ch->GetName() + " - cost: " + std::to_string((ch->GetGoldCoins() - 1));
+									message += "[" + std::to_string(c) + "] " + ch->GetName() + " - cost: " + std::to_string((ch->GetGoldCoins() - 1)) + "  \r\nmachiavelli> ";
 								}
 								game.getCurrentPlayer()->getClient()->write(message);
 								bool inputTrueInner = false;

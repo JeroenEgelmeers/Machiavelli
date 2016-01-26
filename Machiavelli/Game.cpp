@@ -403,7 +403,7 @@ void Game::VictoryCheck()
 	for (const auto &p : currentPlayers) {
 		if (p->FirstEightPoints()) {
 			victory = true;
-			p->getClient()->write("Game finished!" + p->get_name() + " played 8 or more buildling cards!  \r\nmachiavelli>");
+			p->getClient()->write("Game finished!" + p->get_name() + " played 8 or more buildling cards!  \r\nmachiavelli> ");
 		}
 	}
 
@@ -423,7 +423,7 @@ void Game::VictoryCheck()
 
 		// Send message to all players who won the game.
 		for (const auto &p : currentPlayers) {
-			p->getClient()->write(winnerName + " won the game with " + std::to_string(winnerPoints) + " points!");
+			p->getClient()->write(winnerName + " won the game with " + std::to_string(winnerPoints) + " points!  \r\nmachiavelli> ");
 		}
 	}
 	else {
