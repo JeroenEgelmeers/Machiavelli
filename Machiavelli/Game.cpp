@@ -102,10 +102,12 @@ void Game::NewRound()
 	if (deckCharacters.GetDeckSize() > 0) {
 		deckCharacters.ClearDeck();
 	}
-
+	
 	// Set up new deck
 	for (const auto &c : characterCards) {
 		deckCharacters.AddCard(c);
+		c->SetBeenStolen(false);
+		c->SetIsAlive(true);
 	}
 
 	// Shuffle deck so the first will be always random.
