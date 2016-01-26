@@ -341,7 +341,7 @@ void Game::PlayRound()
 
 					case 1:
 						while (!validInputInner && playerBuild <= canBuild) {
-							message = "\r\nmachiavelli> ";
+							message = "machiavelli> ";
 							message += "Which card would you like to build?\r\nmachiavelli> ";
 							message += "[0] I don't want to play a card.\r\nmachiavelli> ";
 							int i = 0;
