@@ -2,7 +2,7 @@
 #include "Game.h"
 
 
-Koopman::Koopman() : CharacterCard("Koopman", CardColor::green, CharacterType::Koopman){}
+Koopman::Koopman() : CharacterCard("Merchant", CardColor::green, CharacterType::Koopman){}
 Koopman::~Koopman(){}
 
 void Koopman::Execute(Game game)

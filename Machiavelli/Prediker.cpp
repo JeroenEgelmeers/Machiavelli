@@ -12,7 +12,7 @@ void Prediker::Execute(Game game)
 	int earnsGoldCoins = game.getCurrentPlayer()->AmountBuildlingColorOnTable(CardColor::blue);
 	if (earnsGoldCoins > 0) {
 		game.getCurrentPlayer()->AddGold(earnsGoldCoins);
-		game.getCurrentPlayer()->getClient()->write("You earned " + std::to_string(earnsGoldCoins) + " gold for your red buildlings. \r\nmachiavelli> ");
+		game.getCurrentPlayer()->getClient()->write("You earned " + std::to_string(earnsGoldCoins) + " gold for your red buildings. \r\nmachiavelli> ");
 	}
 }
 

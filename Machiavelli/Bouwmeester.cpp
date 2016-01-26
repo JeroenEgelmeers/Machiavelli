@@ -1,7 +1,7 @@
 #include "Bouwmeester.h"
 #include "Game.h"
 
-Bouwmeester::Bouwmeester() : CharacterCard("Bouwmeester", CardColor::white, CharacterType::Bouwmeester){}
+Bouwmeester::Bouwmeester() : CharacterCard("Building master", CardColor::white, CharacterType::Bouwmeester){}
 Bouwmeester::~Bouwmeester() {}
 
 void Bouwmeester::Execute(Game game)

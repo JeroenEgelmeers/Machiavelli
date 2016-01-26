@@ -2,7 +2,7 @@
 #include "Game.h"
 
 
-Koning::Koning() : CharacterCard("Koning", CardColor::yellow, CharacterType::Koning) { }
+Koning::Koning() : CharacterCard("King", CardColor::yellow, CharacterType::Koning) { }
 Koning::~Koning() { }
 
 void Koning::Execute(Game game)
