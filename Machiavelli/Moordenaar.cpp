@@ -23,7 +23,7 @@ void Moordenaar::Execute(Game game)
 				}
 			}
 			for (auto const &pl : game.getCurrentPlayers()) {
-				pl->getClient()->write("The murderer killed the " + std::string(CharacterTypeIDToString(responseInt + 2)) + ".\r\nmachiavelli> ");
+				pl->getClient()->write("The murderer killed the " + std::string(CharacterTypeIDToString(responseInt + 1)) + ".\r\nmachiavelli> ");
 			}
 			inputTrue = true;
 		}
