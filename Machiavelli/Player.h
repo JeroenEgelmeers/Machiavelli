@@ -35,16 +35,19 @@ public:
 	// Game information
 	void AddGold(int amount)				{ mGold += amount; }
 	void RemoveGold(int amount)				{ mGold -= amount; }
+	int  GetGold() { return mGold; }
 
 	void AddHandCard(shared_ptr<BuildingCard> card)			{ buildingCardsInHand.push_back(card); }
 	void AddTableCard(shared_ptr<BuildingCard> card)		{ buildingCardsOnTable.push_back(card); }
 	
 	void RemoveHandCard(shared_ptr<BuildingCard> card);
 	void RemoveTableCard(shared_ptr<BuildingCard> card);
+	vector<shared_ptr<BuildingCard>> GetBuildlingCardsOnTable() { return buildingCardsOnTable; }
 	bool HasAndCanPlayCharacter(CharacterType c);
 	vector<shared_ptr<BuildingCard>> GetHandCards() { return buildingCardsInHand; }
 	void ClearHandCards() { buildingCardsInHand.clear(); }
 	size_t BuildingCardsOnTable() { return buildingCardsOnTable.size(); }
+
 
 	bool PlayCard(int handCardId);
 
