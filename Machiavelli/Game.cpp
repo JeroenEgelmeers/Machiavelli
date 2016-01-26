@@ -102,10 +102,12 @@ void Game::NewRound()
 	if (deckCharacters.GetDeckSize() > 0) {
 		deckCharacters.ClearDeck();
 	}
-
+	
 	// Set up new deck
 	for (const auto &c : characterCards) {
 		deckCharacters.AddCard(c);
+		c->SetBeenStolen(false);
+		c->SetIsAlive(true);
 	}
 
 	// Shuffle deck so the first will be always random.
@@ -342,10 +344,10 @@ void Game::PlayRound()
 							message = "\r\nmachiavelli> ";
 							message += "Which card would you like to build?\r\nmachiavelli> ";
 							message += "[0] I don't want to play a card.\r\nmachiavelli> ";
-							int i = 1;
+							int i = 0;
 							for (const auto &c : m_currentPlayer->GetHandCards()) {
-								message += "["+std::to_string(i)+"] " + c->GetName() + " cost: " + std::to_string(c->GetGoldCoins()) + "\r\nmachiavelli> ";
 								i++;
+								message += "["+std::to_string(i)+"] " + c->GetName() + " cost: " + std::to_string(c->GetGoldCoins()) + "\r\nmachiavelli> ";
 							}
 							m_currentPlayer->getClient()->write(message);
 
