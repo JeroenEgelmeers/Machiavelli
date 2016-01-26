@@ -377,7 +377,6 @@ void Game::PlayRound()
 								validInputInner = true;
 							}										
 						}
-						validInput1 = true;
 						break;
 					case 2:
 						validInput1 = true;
